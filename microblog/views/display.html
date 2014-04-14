@@ -1,0 +1,17 @@
+﻿<% if (blogs && blogs.length > 0) {%>
+	  <% blogs.forEach(function(blog,index) {
+	      if (index%3 == 0) { %>
+		  <div class="row">  
+	      <% } %>
+		  <div class="span4">
+		    <h2><a href="/u/<%= blog.userid %>"><%= blog.userid %> 说：</a><h2>
+            <p><small><%= blog.time.toDateString() %>&nbsp<%= blog.time.getHours() %>:<%= blog.time.getMinutes() %></small></p>
+			<p><%= blog.content %></p>
+	      </div>
+		  <% if (index%3 ==2) {%>
+		  </div>
+	<% }
+	  }); if (blogs.length%3!=0){ %>
+	    </div>
+	 <% }
+	}%>

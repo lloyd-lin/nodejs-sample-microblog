@@ -1,0 +1,9 @@
+﻿<%- include header.html %>
+  <form class= "well form-inline" method="post" action="/post">
+    <fieldset>
+	<% if (user) {%>
+		<%- include push.html %>
+  <% }%>
+  	<%- include display.html %>
+	 <hr/>
+<%- include footer.html %>
