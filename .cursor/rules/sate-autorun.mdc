@@ -1,0 +1,26 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+description: 安全的 autorun 命令与高危操作限制
+globs: 
+alwaysApply: true
+---
+
+- 仅允许自动运行以下安全命令：
+  - `npm install`
+  - `npm run build`
+  - `npm run dev`
+  - `npm test`
+  - `git status`
+  - `git pull`
+- 禁止自动运行或建议运行以下高危命令：
+  - `rm`、`del`、`rmdir`、`mv`、`cp -rf` 等删除或覆盖文件的命令
+  - `git push`、`git reset`、`git rebase`、`git checkout` 等会更改远程或本地历史的命令
+  - `chmod`、`chown`、`sudo`、`format`、`shutdown`、`reboot` 等系统级高权限命令
+- 如需执行高危命令，必须人工确认并获得明确授权。
+- 任何自动化脚本或建议都应遵循最小权限原则，避免对生产环境或重要数据造成影响。
+- 对于涉及依赖安装、构建、测试、代码检查等常规开发命令，可自动运行，但需在日志中明确记录操作内容。
+- 如有疑问，优先选择安全、可回滚的操作，并在团队内沟通确认。

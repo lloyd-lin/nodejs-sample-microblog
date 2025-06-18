@@ -1,0 +1,24 @@
+{
+  "name": "nodejs-sample-microblog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "nodemon src/index.ts",
+    "start": "node dist/index.js",
+    "clean": "rimraf dist",
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.12.1",
+  "devDependencies": {
+    "@types/node": "24.0.3",
+    "nodemon": "3.1.10",
+    "rimraf": "^6.0.1",
+    "ts-node": "10.9.2",
+    "typescript": "5.8.3"
+  }
+}
