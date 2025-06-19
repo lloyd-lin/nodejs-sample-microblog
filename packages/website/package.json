@@ -1,0 +1,48 @@
+{
+  "name": "@microblog/website",
+  "version": "1.0.0",
+  "description": "Lin Gao's Personal Portfolio Website",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "webpack --mode production",
+    "dev": "webpack serve --mode development",
+    "start": "serve -s dist",
+    "clean": "rimraf dist",
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": [
+    "portfolio",
+    "personal-website",
+    "frontend",
+    "fullstack",
+    "react",
+    "typescript"
+  ],
+  "author": "Lin Gao <lingao.dev@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^24.0.3",
+    "css-loader": "^7.1.2",
+    "html-webpack-plugin": "^5.6.3",
+    "nodemon": "^3.1.10",
+    "rimraf": "^6.0.1",
+    "serve": "^14.2.4",
+    "style-loader": "^4.0.0",
+    "ts-loader": "^9.5.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3",
+    "webpack": "^5.99.9",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.2"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^6.0.0",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@types/three": "^0.177.0",
+    "antd": "^5.26.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "three": "^0.177.0"
+  }
+}
