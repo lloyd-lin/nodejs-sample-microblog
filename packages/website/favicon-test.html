@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favicon 测试页面</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="http://localhost:8080/favicon.svg">
+    <link rel="icon" type="image/svg+xml" sizes="16x16" href="http://localhost:8080/favicon-16x16.svg">
+    <link rel="icon" type="image/svg+xml" sizes="32x32" href="http://localhost:8080/favicon-32x32.svg">
+    <link rel="apple-touch-icon" href="http://localhost:8080/favicon-32x32.svg">
+    
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+        .favicon-preview {
+            display: flex;
+            gap: 2rem;
+            margin: 2rem 0;
+            align-items: center;
+        }
+        .favicon-item {
+            text-align: center;
+        }
+        .favicon-item img {
+            border: 1px solid #ddd;
+            padding: 10px;
+            background: white;
+        }
+        .status {
+            margin: 1rem 0;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+        .success { background: #d4edda; border: 1px solid #c3e6cb; color: #155724; }
+        .info { background: #e2f3ff; border: 1px solid #b3d9ff; color: #004085; }
+    </style>
+</head>
+<body>
+    <h1>🎨 Favicon 测试页面</h1>
+    
+    <div class="status success">
+        ✅ 如果你能在浏览器标签页看到 "LG" 图标，说明 favicon 配置成功！
+    </div>
+    
+    <div class="status info">
+        💡 提示：可能需要刷新页面或清除浏览器缓存才能看到新的 favicon
+    </div>
+    
+    <h2>Favicon 预览</h2>
+    <div class="favicon-preview">
+        <div class="favicon-item">
+            <img src="http://localhost:8080/favicon-16x16.svg" alt="16x16 favicon" width="16" height="16">
+            <p>16x16 (小图标)</p>
+        </div>
+        <div class="favicon-item">
+            <img src="http://localhost:8080/favicon-32x32.svg" alt="32x32 favicon" width="32" height="32">
+            <p>32x32 (标准图标)</p>
+        </div>
+        <div class="favicon-item">
+            <img src="http://localhost:8080/favicon.svg" alt="主 favicon" width="64" height="64">
+            <p>主图标 (可缩放)</p>
+        </div>
+    </div>
+    
+    <h2>技术信息</h2>
+    <ul>
+        <li><strong>格式</strong>: SVG (矢量图标，支持高分辨率显示)</li>
+        <li><strong>设计</strong>: 蓝紫渐变背景 + 白色 "LG" 字母</li>
+        <li><strong>兼容性</strong>: 现代浏览器 + Apple Touch Icon</li>
+        <li><strong>缓存</strong>: 1年缓存时间，优化加载性能</li>
+    </ul>
+    
+    <h2>访问链接</h2>
+    <ul>
+        <li><a href="http://localhost:8080/" target="_blank">🌐 主网站</a></li>
+        <li><a href="http://localhost:8080/favicon.svg" target="_blank">🔗 主 Favicon</a></li>
+        <li><a href="http://localhost:8080/favicon-16x16.svg" target="_blank">🔗 16x16 Favicon</a></li>
+        <li><a href="http://localhost:8080/favicon-32x32.svg" target="_blank">🔗 32x32 Favicon</a></li>
+    </ul>
+    
+    <footer style="margin-top: 3rem; text-align: center; color: #666;">
+        <p>林高个人作品集 - Favicon 测试</p>
+    </footer>
+</body>
+</html>
