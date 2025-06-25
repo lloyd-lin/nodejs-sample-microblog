@@ -133,3 +133,6 @@ npm-debug.log
 .Trashes
 ehthumbs.db
 Thumbs.db 
+
+# docker config
+packages/website/build-docker-cloud.sh

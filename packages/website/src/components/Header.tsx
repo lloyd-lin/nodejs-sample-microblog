@@ -123,15 +123,6 @@ const Header: React.FC = () => {
         .ant-menu-horizontal {
           line-height: 64px;
         }
-        
-        .ant-menu-horizontal > .ant-menu-item {
-          border-bottom: 2px solid transparent;
-          transition: all 0.2s ease;
-        }
-        
-        .ant-menu-horizontal > .ant-menu-item-selected {
-          border-bottom-color: #1890ff;
-        }
       `}</style>
     </AntHeader>
   );

@@ -36,7 +36,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './public/index.html',
-      title: '林高 - 个人作品集',
+      title: '随影而来 - 个人作品集',
     }),
     new CopyWebpackPlugin({
       patterns: [

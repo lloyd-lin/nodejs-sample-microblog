@@ -12,6 +12,8 @@
     "build:all": "pnpm -r build",
     "dev:website": "pnpm --filter @microblog/website dev",
     "build:website": "pnpm --filter @microblog/website build",
+    "dev:backend": "pnpm --filter @microblog/backend dev",
+    "build:backend": "pnpm --filter @microblog/backend build",
     "dev:mcp": "pnpm --filter @nodejs-microblog/mcp-server dev",
     "build:mcp": "pnpm --filter @nodejs-microblog/mcp-server build",
     "clean:all": "pnpm -r clean",
