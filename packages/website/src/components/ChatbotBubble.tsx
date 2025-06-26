@@ -333,7 +333,7 @@ const ChatbotBubble: React.FC = () => {
       };
     }
   }, [isDragging, dragStart.x, dragStart.y, position.x, position.y]);
-
+  
   // 处理点击事件（区分拖拽和点击）
   const handleBubbleClick = () => {
     // 如果刚结束拖拽，不触发点击
@@ -480,7 +480,7 @@ const ChatbotBubble: React.FC = () => {
                   maxWidth: '70%',
                   display: 'flex',
                   flexDirection: msg.role === 'user' ? 'row-reverse' : 'row',
-                  alignItems: 'flex-end',
+                  alignItems: 'flex-start',
                   gap: '8px',
                 }}
               >
@@ -499,13 +499,24 @@ const ChatbotBubble: React.FC = () => {
                     color: 'white',
                     fontSize: '14px',
                     flexShrink: 0,
+                    marginTop: '4px', // 轻微调整头像位置
                   }}
                 >
                   {msg.role === 'user' ? '👤' : '🤖'}
                 </div>
 
                 {/* 消息气泡 */}
-                <div>
+                <div style={{ flex: 1 }}>   
+                  <div
+                    style={{
+                      fontSize: '11px',
+                      color: '#999',
+                      marginTop: '4px',
+                      textAlign: msg.role === 'user' ? 'right' : 'left',
+                    }}
+                  >
+                    {formatTimestamp(msg.timestamp)}
+                  </div>
                   <div
                     style={{
                       background: msg.role === 'user' ? '#1890ff' : '#ffffff',
@@ -547,16 +558,6 @@ const ChatbotBubble: React.FC = () => {
                         }}
                       />
                     )}
-                  </div>
-                  <div
-                    style={{
-                      fontSize: '11px',
-                      color: '#999',
-                      marginTop: '4px',
-                      textAlign: msg.role === 'user' ? 'right' : 'left',
-                    }}
-                  >
-                    {formatTimestamp(msg.timestamp)}
                   </div>
                 </div>
               </div>
