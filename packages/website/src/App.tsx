@@ -8,6 +8,7 @@ import Skills from './components/Skills';
 import Projects from './components/Projects';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import ChatbotBubble from './components/ChatbotBubble';
 
 const { Content } = Layout;
 
@@ -24,6 +25,7 @@ const App: React.FC = () => {
         <Contact />
       </Content>
       <Footer />
+      <ChatbotBubble />
     </Layout>
   );
 };

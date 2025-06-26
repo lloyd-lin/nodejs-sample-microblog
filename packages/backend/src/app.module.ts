@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 // import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { ChatModule } from './modules/chat/chat.module';
 // import { AuthModule } from './modules/auth/auth.module';
 // import { UsersModule } from './modules/users/users.module';
 // import { PostsModule } from './modules/posts/posts.module';
@@ -35,6 +36,9 @@ import { AppService } from './app.service';
     //   }),
     //   inject: [ConfigService],
     // }),
+    
+    // 聊天模块
+    ChatModule,
     
     // 业务模块 - 暂时注释掉
     // AuthModule,
