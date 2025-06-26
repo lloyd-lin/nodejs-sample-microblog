@@ -135,7 +135,7 @@ const ChatbotBubble: React.FC = () => {
     setMessages(prev => [...prev, assistantMessage]);
 
     try {
-      const response = await fetch('http://localhost:3001/chat/stream', {
+      const response = await fetch('http://localhost:3001/api/chat/stream', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -147,9 +147,9 @@ const ChatbotBubble: React.FC = () => {
               content: content,
             },
           ],
-          model: 'gpt-3.5-turbo',
+          model: 'deepseek-chat',
           temperature: 0.7,
-          max_tokens: 1000,
+        //   max_tokens: 1000,
           stream: true,
         }),
       });

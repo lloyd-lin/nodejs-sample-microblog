@@ -37,7 +37,7 @@ import {
     ) {
       // 检查是否为流式请求
       if (chatDto.stream) {
-        return this.streamChatCompletion(chatDto, res);
+        return this.streamChat(chatDto, res);
       }
   
       // 非流式请求
@@ -52,7 +52,7 @@ import {
       description: 'SSE流式响应',
       headers: {
         'Content-Type': {
-          description: 'text/plain; charset=utf-8',
+          description: 'text/event-stream; charset=utf-8',
         },
         'Cache-Control': {
           description: 'no-cache',
@@ -67,37 +67,42 @@ import {
       description: 'text/event-stream',
       required: false,
     })
-    async streamChatCompletion(
+    async streamChat(
       @Body(ValidationPipe) chatDto: ChatCompletionDto,
       @Res() res: Response,
     ) {
       // 设置SSE响应头
-      res.setHeader('Content-Type', 'text/plain; charset=utf-8');
       res.setHeader('Cache-Control', 'no-cache');
       res.setHeader('Connection', 'keep-alive');
       res.setHeader('Access-Control-Allow-Origin', '*');
       res.setHeader('Access-Control-Allow-Headers', 'Cache-Control');
+      res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+      res.flushHeaders();
+      try {
+        // 创建流式响应
+        const stream = this.chatService.chatCompletionStream({
+          ...chatDto,
+          stream: true,
+        });
   
-      // 创建流式响应
-      const stream = this.chatService.chatCompletionStream({
-        ...chatDto,
-        stream: true,
-      });
-  
-      // 订阅流并发送数据
-      stream.subscribe({
-        next: (data) => {
-          res.write(data);
-        },
-        complete: () => {
-          res.end();
-        },
-        error: (error) => {
-          console.error('Stream error:', error);
-          res.write(`data: {"error": "${error.message}"}\n\n`);
-          res.end();
-        },
-      });
+        // 订阅流并发送数据
+        stream.subscribe({
+          next: (data) => {
+            res.write(data);
+          },
+          complete: () => {
+            res.end();
+          },
+          error: (error) => {
+            console.error('Stream error:', error);
+            res.write(`data: {"error": "${error.message}"}\n\n`);
+            res.end();
+          },
+        });
+      } catch (error) {
+        console.error('Failed to create stream:', error);
+        res.status(500).json({ error: 'Failed to create stream' });
+      }
     }
   
     @Get('models')
