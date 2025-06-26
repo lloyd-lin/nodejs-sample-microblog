@@ -15,8 +15,16 @@ interface ChatMessage {
   isStreaming?: boolean;
 }
 
+const defualtPadding = 64;
 const ChatbotBubble: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [hasDragged, setHasDragged] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const [modalWidth, setModalWidth] = useState('50%');
+  const [wasDragging, setWasDragging] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: '1',
@@ -68,6 +76,30 @@ const ChatbotBubble: React.FC = () => {
   useEffect(() => {
     if (isOpen) {
       setUnreadCount(0);
+    }
+  }, [isOpen]);
+
+  // 响应式宽度计算
+  useEffect(() => {
+    const updateModalWidth = () => {
+      const screenWidth = window.innerWidth;
+      if (screenWidth <= 768) {
+        // 小屏幕：全屏显示
+        setModalWidth('100%');
+      } else if (screenWidth <= 1200) {
+        // 中等屏幕：80%宽度
+        setModalWidth('80%');
+      } else {
+        // 大屏幕：最少50%宽度
+        setModalWidth('50%');
+      }
+    };
+
+    // 只在Modal打开时计算，避免全局影响
+    if (isOpen) {
+      updateModalWidth();
+      window.addEventListener('resize', updateModalWidth);
+      return () => window.removeEventListener('resize', updateModalWidth);
     }
   }, [isOpen]);
 
@@ -221,41 +253,147 @@ const ChatbotBubble: React.FC = () => {
     });
   };
 
+  // 拖拽处理函数
+  const handleMouseDown = (e: React.MouseEvent) => {
+    // 判断是否是icon
+    const startX = e.clientX;
+    const startY = e.clientY;
+    let dragStarted = false;
+    
+    setDragStart({
+      x: startX - position.x,
+      y: startY - position.y,
+    });
+
+    const handleInitialMouseMove = (moveEvent: MouseEvent) => {
+      const distance = Math.sqrt(
+        Math.pow(moveEvent.clientX - startX, 2) + 
+        Math.pow(moveEvent.clientY - startY, 2)
+      );
+      
+      // 如果移动距离超过5px，开始拖拽
+      if (distance > 5 && !dragStarted) {     
+        setPosition({
+            x: startX - 30,
+            y: startY - 30,
+        });
+        dragStarted = true;
+        setIsDragging(true);
+        setHasDragged(true);
+      }
+    };
+
+    const handleInitialMouseUp = () => {
+      document.removeEventListener('mousemove', handleInitialMouseMove);
+      document.removeEventListener('mouseup', handleInitialMouseUp);
+    };
+
+    document.addEventListener('mousemove', handleInitialMouseMove);
+    document.addEventListener('mouseup', handleInitialMouseUp);
+    
+    e.preventDefault();
+  };
+
+  const handleMouseMove = (e: MouseEvent) => {
+    if (!isDragging) return;
+
+    const newX = e.clientX - dragStart.x;
+    const newY = e.clientY - dragStart.y;
+    // 限制拖拽范围在视窗内
+    const maxX = window.innerWidth - defualtPadding; // 按钮宽度
+    const maxY = window.innerHeight - defualtPadding; // 按钮高度
+    setPosition({
+      x: Math.max(0, Math.min(dragStart.x + newX - 30, maxX)),
+      y: Math.max(0, Math.min(dragStart.y + newY - 30, maxY)),
+    });
+    setHasDragged(true);
+  };
+
+  const handleMouseUp = () => {
+    if (isDragging) {
+      setWasDragging(true);
+      // 延迟重置拖拽状态，防止立即触发点击
+      setTimeout(() => {
+        setWasDragging(false);
+      }, 100);
+    }
+    setIsDragging(false);
+  };
+
+  // 添加全局鼠标事件监听
+  useEffect(() => {
+    if (isDragging) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+      document.body.style.userSelect = 'none';
+      return () => {
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+        document.body.style.userSelect = '';
+      };
+    }
+  }, [isDragging, dragStart.x, dragStart.y, position.x, position.y]);
+
+  // 处理点击事件（区分拖拽和点击）
+  const handleBubbleClick = () => {
+    // 如果刚结束拖拽，不触发点击
+    if (wasDragging || isDragging) {
+      return;
+    }
+    
+    setIsOpen(true);
+  };
+
   return (
     <>
       {/* 聊天气泡按钮 */}
       <div
         style={{
           position: 'fixed',
-          bottom: '30px',
-          right: '30px',
+          bottom: !hasDragged ? '30px' : 'auto',
+          right: !hasDragged ? '30px' : 'auto',
+          left: hasDragged ? `${position.x}px` : 'auto',
+          top: hasDragged ? `${position.y}px` : 'auto',
           zIndex: 1000,
+          cursor: isDragging ? 'grabbing' : 'grab',
+          userSelect: 'none',
         }}
+        onMouseDown={handleMouseDown}
       >
-        <Tooltip title="AI助手" placement="left">
+        <Tooltip title={isDragging ? "拖拽中..." : "AI助手"} placement="left">
           <Badge count={unreadCount} size="small" offset={[-5, 5]}>
             <Button
+              ref={buttonRef}
               type="primary"
               shape="circle"
               size="large"
               icon={<RobotOutlined />}
-              onClick={() => setIsOpen(true)}
+              onClick={handleBubbleClick}
               style={{
                 width: '64px',
                 height: '64px',
-                boxShadow: '0 4px 20px rgba(24, 144, 255, 0.4)',
+                boxShadow: isDragging 
+                  ? '0 8px 30px rgba(24, 144, 255, 0.6)' 
+                  : '0 4px 20px rgba(24, 144, 255, 0.4)',
                 background: 'linear-gradient(135deg, #1890ff 0%, #096dd9 100%)',
                 border: 'none',
                 fontSize: '24px',
-                animation: 'float 3s ease-in-out infinite',
+                animation: isDragging ? 'none' : 'float 3s ease-in-out infinite',
+                transform: isDragging ? 'scale(1.1)' : 'scale(1)',
+                transition: isDragging ? 'none' : 'transform 0.2s ease, box-shadow 0.2s ease',
+                pointerEvents: 'auto',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'scale(1.1)';
-                e.currentTarget.style.boxShadow = '0 6px 25px rgba(24, 144, 255, 0.6)';
+                if (!isDragging) {
+                  e.currentTarget.style.transform = 'scale(1.1)';
+                  e.currentTarget.style.boxShadow = '0 6px 25px rgba(24, 144, 255, 0.6)';
+                }
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'scale(1)';
-                e.currentTarget.style.boxShadow = '0 4px 20px rgba(24, 144, 255, 0.4)';
+                if (!isDragging) {
+                  e.currentTarget.style.transform = 'scale(1)';
+                  e.currentTarget.style.boxShadow = '0 4px 20px rgba(24, 144, 255, 0.4)';
+                }
               }}
             />
           </Badge>
@@ -297,24 +435,32 @@ const ChatbotBubble: React.FC = () => {
         open={isOpen}
         onCancel={() => setIsOpen(false)}
         footer={null}
-        width={480}
-        style={{ top: 20 }}
+        width={modalWidth}
+        centered={modalWidth !== '100%'}
+        style={{ 
+          top: modalWidth === '100%' ? 0 : undefined,
+          maxWidth: modalWidth === '100%' ? '100vw' : '90vw',
+          margin: modalWidth === '100%' ? 0 : undefined,
+        }}
         styles={{
           body: { 
             padding: 0,
-            height: '500px',
+            height: modalWidth === '100%' ? '80vh' : '500px',
+            maxHeight: '80vh',
           },
           header: {
             borderBottom: '1px solid #f0f0f0',
             marginBottom: 0,
           }
         }}
+        destroyOnHidden={true}
         closeIcon={<CloseOutlined />}
       >
         {/* 消息列表 */}
         <div
           style={{
-            height: '400px',
+            height: modalWidth === '100%' ? 'calc(80vh - 120px)' : '400px',
+            maxHeight: 'calc(80vh - 120px)',
             overflowY: 'auto',
             padding: '16px',
             background: '#fafafa',
@@ -655,6 +801,15 @@ const ChatbotBubble: React.FC = () => {
           .markdown-content em {
             font-style: italic;
             color: #666;
+          }
+
+          /* 拖拽相关样式 */
+          .dragging-active {
+            transition: none !important;
+          }
+          
+          .dragging-active * {
+            pointer-events: none !important;
           }
 
           /* 代码高亮样式 */
