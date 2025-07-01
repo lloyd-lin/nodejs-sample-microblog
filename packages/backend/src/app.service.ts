@@ -7,7 +7,7 @@ export class AppService {
       name: 'Microblog Backend API',
       version: '1.0.0',
       description: '微博应用后端 API 服务',
-      author: 'Lynn',
+      author: 'Lloyd',
       timestamp: new Date().toISOString(),
     };
   }

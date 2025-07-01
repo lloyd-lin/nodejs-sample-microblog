@@ -67,3 +67,6 @@ uploads/
 
 # Cache
 .cache/ 
+
+# build-docker-cloud.sh
+build-docker-cloud.sh

@@ -2,7 +2,7 @@
   "name": "@microblog/backend",
   "version": "1.0.0",
   "description": "NestJS Backend API for Microblog Application",
-  "author": "Lynn",
+  "author": "Lloyd",
   "private": true,
   "license": "MIT",
   "scripts": {
