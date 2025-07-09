@@ -11,6 +11,18 @@ const Header: React.FC = () => {
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
+      
+      // 检测当前可见的section
+      const sections = ['hero', 'about', 'skills', 'projects', 'contact'];
+      const scrollPosition = window.scrollY + 100; // 添加偏移量
+      
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = document.getElementById(sections[i]);
+        if (section && section.offsetTop <= scrollPosition) {
+          setCurrent(sections[i]);
+          break;
+        }
+      }
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -32,6 +44,9 @@ const Header: React.FC = () => {
       setCurrent(sectionId);
     }
   };
+
+  // 根据滚动状态确定字体颜色
+  const textColor = isScrolled ? '#262626' : '#ffffff';
 
   return (
     <AntHeader
@@ -61,12 +76,13 @@ const Header: React.FC = () => {
           style={{ 
             fontSize: '24px', 
             fontWeight: 600, 
-            color: '#262626',
-            cursor: 'pointer'
+            color: textColor,
+            cursor: 'pointer',
+            transition: 'color 0.3s ease'
           }}
           onClick={() => scrollToSection('hero')}
         >
-          林高
+          欢迎
         </div>
 
         {/* Desktop Menu */}
@@ -84,8 +100,9 @@ const Header: React.FC = () => {
             ...item,
             onClick: () => scrollToSection(item.key),
             style: {
-              color: '#262626',
+              color: textColor,
               fontWeight: 400,
+              transition: 'color 0.3s ease'
             }
           }))}
         />
@@ -96,7 +113,8 @@ const Header: React.FC = () => {
           icon={<MenuOutlined />}
           style={{
             display: 'none',
-            color: '#262626',
+            color: textColor,
+            transition: 'color 0.3s ease'
           }}
           className="mobile-menu-btn"
         />
@@ -113,15 +131,20 @@ const Header: React.FC = () => {
         }
         
         .ant-menu-item:hover {
-          color: #1890ff !important;
+          transform: scale(1.05);
+          color: ${isScrolled ? '#1890ff' : '#e6f7ff'} !important;
         }
         
         .ant-menu-item-selected {
-          color: #1890ff !important;
+          color: ${isScrolled ? '#1890ff' : '#e6f7ff'} !important;
         }
         
         .ant-menu-horizontal {
           line-height: 64px;
+        }
+        
+        .ant-menu-item {
+          transition: color 0.3s ease !important;
         }
       `}</style>
     </AntHeader>

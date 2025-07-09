@@ -166,15 +166,149 @@ pnpm format
 
 ## 🐳 Docker 部署
 
+### 📦 最近更新 (2025-01)
+
+#### 1. 完整Docker支持
+- ✅ 创建`Dockerfile.simple`生产环境镜像
+- ✅ 添加`build-docker-cloud.sh`云构建脚本
+- ✅ 配置`.dockerignore`优化构建体积
+- ✅ 环境变量完整配置
+- ✅ 健康检查机制
+
+#### 2. 云构建脚本
+```bash
+# 自动化构建和推送
+./build-docker-cloud.sh
+
+# 支持功能：
+# - 自动构建应用
+# - 构建Docker镜像
+# - 推送到阿里云容器镜像服务
+# - 环境变量检查
+# - 构建日志记录
+```
+
+#### 3. 环境变量配置
+创建`.env.production`文件：
+```env
+# 数据库配置
+DB_HOST=your-db-host
+DB_PORT=5432
+DB_USERNAME=your-username
+DB_PASSWORD=your-password
+DB_DATABASE=microblog
+
+# API密钥
+OPENAI_API_KEY=your-openai-api-key
+JWT_SECRET=your-jwt-secret-key
+
+# 服务配置
+PORT=3001
+NODE_ENV=production
+```
+
+### 🚀 快速部署
+
+#### 方式一：使用构建脚本（推荐）
+```bash
+# 1. 配置环境变量
+cp .env.production.example .env.production
+vim .env.production
+
+# 2. 执行构建
+chmod +x build-docker-cloud.sh
+./build-docker-cloud.sh
+```
+
+#### 方式二：手动构建
+```bash
+# 1. 构建应用
+pnpm build
+
+# 2. 构建Docker镜像
+docker build -f Dockerfile.simple -t microblog-backend .
+
+# 3. 运行容器
+docker run -d \
+  --name microblog-backend \
+  -p 3001:3001 \
+  --env-file .env.production \
+  microblog-backend
+```
+
+### 🐳 Dockerfile配置
+
 ```dockerfile
+# Dockerfile.simple
 FROM node:18-alpine
+
+# 设置工作目录
 WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production
+
+# 复制包管理文件
+COPY package.json pnpm-lock.yaml ./
+
+# 安装pnpm并安装依赖
+RUN npm install -g pnpm && \
+    pnpm install --frozen-lockfile --prod
+
+# 复制构建产物
 COPY dist/ ./dist/
+
+# 复制环境变量文件
+COPY .env.production ./.env
+
+# 健康检查
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:3001/health || exit 1
+
+# 暴露端口
 EXPOSE 3001
+
+# 启动应用
 CMD ["node", "dist/main"]
 ```
+
+### 📁 新增文件说明
+
+#### Docker相关文件
+- `Dockerfile.simple` - 生产环境Docker镜像配置
+- `build-docker-cloud.sh` - 云构建和部署脚本
+- `.dockerignore` - Docker构建忽略文件
+- `.env.production` - 生产环境变量模板
+- `DOCKER-README.md` - 详细Docker部署指南
+
+#### 重要配置
+- 健康检查端点：`GET /health`
+- 容器内端口：3001
+- 镜像基于：node:18-alpine
+
+### 🔒 安全注意事项
+
+#### 环境变量安全
+```bash
+# 生产环境必须配置的敏感变量
+OPENAI_API_KEY=sk-xxx...     # 保密！
+JWT_SECRET=random-secret     # 使用强随机密钥
+DB_PASSWORD=secure-password  # 数据库密码
+
+# 🚨 安全提醒：
+# 1. 不要将.env.production提交到版本控制
+# 2. 使用强密码和复杂的JWT密钥  
+# 3. 定期轮换API密钥
+# 4. 在生产环境中限制数据库访问权限
+```
+
+#### 网络安全
+- 容器间通信建议使用Docker网络
+- 生产环境应配置HTTPS
+- 建议使用反向代理（nginx）
+
+### 📚 详细文档
+
+- [完整Docker部署指南](./DOCKER-README.md) - 包含故障排除和最佳实践
+- [API接口文档](http://localhost:3001/api/docs) - Swagger在线文档
+- [项目整体架构](../../README.md) - 全栈项目说明
 
 ## 🤝 与前端对接
 

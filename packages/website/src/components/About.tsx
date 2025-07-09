@@ -28,8 +28,8 @@ const About: React.FC = () => {
       id="about"
       style={{
         padding: '120px 0',
-        backgroundColor: 'rgba(255, 255, 255, 0.95)',
-        backdropFilter: 'blur(10px)',
+        position: 'relative',
+        backgroundColor: 'rgba(0, 0, 0, 0.05)',
       }}
     >
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
@@ -112,7 +112,7 @@ const About: React.FC = () => {
                   bodyStyle={{ padding: '24px' }}
                   className="about-card"
                 >
-                  <Row align="middle" gutter={16}>
+                  <Row align="middle" gutter={16} wrap={false}>
                     <Col flex="none">
                       <div
                         style={{

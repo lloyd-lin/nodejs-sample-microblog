@@ -25,34 +25,43 @@ const ChatbotBubble: React.FC = () => {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [modalWidth, setModalWidth] = useState('50%');
   const [wasDragging, setWasDragging] = useState(false);
+
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: '1',
-      content: `你好！我是微博应用的AI助手 🤖
+      content: `你好！我是Lloyd的AI助手 🤖
 
-## 我可以帮助你：
+## 关于我：
 
-- **了解微博应用功能** - 介绍各种功能特性
-- **回答使用问题** - 解决你遇到的困难
-- **提供技术支持** - 技术问题咨询
-- **创作建议** - 内容创作灵感
+我是 **Lloyd** 的个人智能助手，很高兴认识你！我可以帮你了解：
 
-### 支持功能特性：
+### 👨‍💻 技术背景
+- **全栈开发** - Node.js、React、TypeScript 等技术栈
+- **项目经验** - 微博应用、聊天机器人、Web开发等
+- **技术特长** - 前后端开发、API设计、数据库设计
 
+### 🎯 我能为你做什么：
+- **技术交流** - 分享开发经验和技术见解
+- **项目介绍** - 展示作品和开发历程
+- **问题解答** - 技术问题咨询和解决方案
+- **职业规划** - 开发者成长路径讨论
+
+### 💬 聊天功能特色：
 1. **Markdown渲染** - 支持格式化文本显示
 2. **代码高亮** - 代码块语法高亮
-3. **表格展示** - 结构化数据显示
-4. **链接支持** - 可点击的超链接
+3. **实时对话** - 流式响应体验
+4. **智能回复** - AI驱动的对话能力
 
-> 💡 **提示**: 我的回复支持完整的Markdown语法，包括代码块、表格、列表等格式！
+> 💡 **提示**: 我的回复支持完整的Markdown语法，可以展示代码、表格、列表等格式！
 
-试试问我一些问题吧！比如：
+你可以问我：
 \`\`\`
-如何使用这个聊天功能？
-能展示一些代码示例吗？
+介绍一下你的技术栈？
+有什么有趣的项目可以分享？
+能给我一些学习建议吗？
 \`\`\`
 
-有什么可以帮助你的吗？`,
+欢迎和我聊聊技术、项目或任何你感兴趣的话题！ 🚀`,
       role: 'assistant',
       timestamp: new Date(),
     },
@@ -62,6 +71,8 @@ const ChatbotBubble: React.FC = () => {
   const [unreadCount, setUnreadCount] = useState(0);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+
+
 
   // 自动滚动到底部
   const scrollToBottom = () => {
@@ -135,7 +146,10 @@ const ChatbotBubble: React.FC = () => {
     setMessages(prev => [...prev, assistantMessage]);
 
     try {
-      const response = await fetch('http://localhost:3001/api/chat/stream', {
+      const response = await fetch(
+        'http://localhost:3001/api/chat/stream'  // 本地
+        // 'https://snsrxkkdqdpw.sealoshzh.site/api/chat/stream'
+        , {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -169,7 +183,7 @@ const ChatbotBubble: React.FC = () => {
         const { done, value } = await reader.read();
         
         if (done) break;
-
+        setIsLoading(false);
         const chunk = new TextDecoder().decode(value);
         const lines = chunk.split('\n');
 
@@ -346,6 +360,8 @@ const ChatbotBubble: React.FC = () => {
 
   return (
     <>
+
+
       {/* 聊天气泡按钮 */}
       <div
         style={{
@@ -546,61 +562,17 @@ const ChatbotBubble: React.FC = () => {
                       </div>
                     )}
                     {msg.isStreaming && (
-                      <span
-                        style={{
-                          display: 'inline-block',
-                          width: '8px',
-                          height: '8px',
-                          backgroundColor: '#1890ff',
-                          borderRadius: '50%',
-                          marginLeft: '8px',
-                          animation: 'pulse 1s infinite',
-                        }}
-                      />
+                      <span style={{ display: 'inline-flex', gap: '2px', marginLeft: '8px', alignItems: 'center' }}>
+                        <span className="typing-dot" />
+                        <span className="typing-dot" />
+                        <span className="typing-dot" />
+                      </span>
                     )}
                   </div>
                 </div>
               </div>
             </div>
           ))}
-          
-          {/* 加载指示器 */}
-          {isLoading && (
-            <div style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: '16px' }}>
-              <div style={{ display: 'flex', alignItems: 'flex-end', gap: '8px' }}>
-                <div
-                  style={{
-                    width: '32px',
-                    height: '32px',
-                    borderRadius: '50%',
-                    background: 'linear-gradient(135deg, #1890ff 0%, #096dd9 100%)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: 'white',
-                    fontSize: '14px',
-                  }}
-                >
-                  🤖
-                </div>
-                <div
-                  style={{
-                    background: '#ffffff',
-                    padding: '12px 16px',
-                    borderRadius: '18px',
-                    boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-                    border: '1px solid #f0f0f0',
-                  }}
-                >
-                  <div style={{ display: 'flex', gap: '4px' }}>
-                    <div className="typing-dot" />
-                    <div className="typing-dot" />
-                    <div className="typing-dot" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
           
           <div ref={messagesEndRef} />
         </div>
@@ -666,8 +638,8 @@ const ChatbotBubble: React.FC = () => {
           }
           
           .typing-dot {
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
             background-color: #1890ff;
             border-radius: 50%;
             animation: typing-bounce 1.4s infinite ease-in-out;
@@ -679,14 +651,16 @@ const ChatbotBubble: React.FC = () => {
           
           @keyframes typing-bounce {
             0%, 80%, 100% {
-              transform: scale(0.8);
-              opacity: 0.5;
+              transform: scale(0.6);
+              opacity: 0.4;
             }
             40% {
               transform: scale(1);
               opacity: 1;
             }
           }
+          
+
 
           /* Markdown 样式 */
           .markdown-content {

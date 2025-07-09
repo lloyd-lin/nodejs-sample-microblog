@@ -20,7 +20,7 @@
     "install:all": "pnpm install && pnpm -r install"
   },
   "keywords": [],
-  "author": "",
+  "author": "Lloyd",
   "license": "ISC",
   "packageManager": "pnpm@10.12.1",
   "devDependencies": {
