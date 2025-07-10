@@ -27,7 +27,7 @@ const About: React.FC = () => {
     <section
       id="about"
       style={{
-        padding: '120px 0',
+        padding: '80px 0 120px 0',
         position: 'relative',
         backgroundColor: 'rgba(0, 0, 0, 0.05)',
       }}

@@ -14,15 +14,27 @@ const Header: React.FC = () => {
       
       // 检测当前可见的section
       const sections = ['hero', 'about', 'skills', 'projects', 'contact'];
-      const scrollPosition = window.scrollY + 100; // 添加偏移量
+      const scrollPosition = window.scrollY + 64; // 使用视窗中心作为参考点
       
-      for (let i = sections.length - 1; i >= 0; i--) {
+      let activeSection = 'hero'; // 默认激活hero
+      
+      for (let i = 0; i < sections.length; i++) {
         const section = document.getElementById(sections[i]);
-        if (section && section.offsetTop <= scrollPosition) {
-          setCurrent(sections[i]);
-          break;
+        if (section) {
+          const sectionTop = section.getBoundingClientRect().top + window.scrollY;
+          const sectionBottom = sectionTop + section.offsetHeight;
+          // 如果当前滚动位置在这个section范围内
+          if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+            activeSection = sections[i];
+            break;
+          }
+          // 如果滚动位置超过了这个section，继续检查下一个
+          else if (scrollPosition >= sectionTop) {
+            activeSection = sections[i];
+          }
         }
       }
+      setCurrent(activeSection);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -33,7 +45,7 @@ const Header: React.FC = () => {
     { key: 'hero', label: '首页' },
     { key: 'about', label: '关于' },
     { key: 'skills', label: '技能' },
-    { key: 'projects', label: '作品' },
+    { key: 'projects', label: '项目' },
     { key: 'contact', label: '联系' },
   ];
 

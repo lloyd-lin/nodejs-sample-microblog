@@ -177,7 +177,6 @@ const Skills: React.FC = () => {
             lineFill: "#000",
             lineOpacity: 0.25,
             labelFilter: (d: any, index: number, data: any) => {
-              console.log(d, index, data, i);
               if (i === 4 && d === 0) {
                 return true;
               }
@@ -187,25 +186,6 @@ const Skills: React.FC = () => {
         ])
       ),
     });
-    console.log(
-      Object.fromEntries(
-        Array.from({ length: skillsPos.length }, (_, i) => [
-          `position${i === 0 ? "" : i}`,
-          {
-            zIndex: 1,
-            titleFontSize: 10,
-            titleSpacing: 8,
-            label: true,
-            labelFill: "#000",
-            labelOpacity: 0.45,
-            labelFontSize: 10,
-            line: true,
-            lineFill: "#000",
-            lineOpacity: 0.25,
-          },
-        ])
-      )
-    );
 
     chart.render();
 
@@ -218,7 +198,7 @@ const Skills: React.FC = () => {
     <section
       id="skills"
       style={{
-        padding: "120px 0",
+        padding: "80px 0",
         backgroundColor: "white",
         backdropFilter: "blur(10px)",
       }}

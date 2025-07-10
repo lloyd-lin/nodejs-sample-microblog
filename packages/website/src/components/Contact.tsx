@@ -30,7 +30,7 @@ const Contact: React.FC = () => {
     <section
       id="contact"
       style={{
-        padding: '120px 0',
+        padding: '80px 0 120px 0',
         backgroundColor: 'rgba(255, 255, 255, 0.9)',
         backdropFilter: 'blur(10px)',
       }}

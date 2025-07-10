@@ -137,7 +137,7 @@ const StarField: React.FC = () => {
         // 设置星星主体样式
         ctx.globalAlpha = star.opacity;
         ctx.fillStyle = '#ffffff';
-        ctx.shadowBlur = star.size * 2;    // 发光效果
+        ctx.shadowBlur = star.size * ( 2 * (Math.random() * 0.5 + 0.5));    // 发光效果
         ctx.shadowColor = '#ffffff';
         
         // 绘制星星主体
@@ -153,7 +153,7 @@ const StarField: React.FC = () => {
           ctx.globalAlpha = star.opacity * twinkle;
           ctx.fillStyle = '#4fc3f7';  // 蓝色核心
           ctx.beginPath();
-          ctx.arc(star.x, star.y, star.size * 0.5, 0, Math.PI * 2);
+          ctx.arc(star.x, star.y, star.size * (0.5 + Math.random() * 0.2), 0, Math.PI * 2);
           ctx.fill();
         }
         
