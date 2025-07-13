@@ -1,0 +1,418 @@
+/* WorkflowCanvas 基础样式 */
+.workflow-canvas-card {
+  height: 700px;
+  margin: 20px 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.workflow-canvas-card .ant-card-body {
+  padding: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.workflow-header {
+  padding: 16px 20px;
+  background: white;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.workflow-header h4 {
+  margin: 0 0 4px 0;
+  color: #1890ff;
+}
+
+.workflow-header .ant-typography {
+  margin: 0;
+  font-size: 12px;
+}
+
+/* FlowGram 编辑器容器 */
+.flowgram-editor-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #f8f9fa;
+  position: relative;
+}
+
+.flowgram-layout {
+  display: flex;
+  height: 100%;
+}
+
+/* 侧边栏 */
+.flowgram-sidebar {
+  width: 280px;
+  min-width: 280px;
+  background: white;
+  border-right: 1px solid #e8e8e8;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+/* 主编辑区域 */
+.flowgram-main {
+  flex: 1;
+  position: relative;
+  background: white;
+}
+
+.flowgram-canvas {
+  width: 100%;
+  height: 100%;
+}
+
+/* 节点添加面板 */
+.flowgram-node-panel {
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #e8e8e8;
+}
+
+.panel-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid #f0f0f0;
+  background: #fafafa;
+  border-radius: 8px 8px 0 0;
+}
+
+.node-list {
+  padding: 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.node-template {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 8px;
+  border: 1px solid #e8e8e8;
+  border-radius: 6px;
+  cursor: grab;
+  transition: all 0.2s;
+  background: white;
+  min-height: 60px;
+}
+
+.node-template:hover {
+  border-color: #1890ff;
+  background: #f0f8ff;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(24, 144, 255, 0.2);
+}
+
+.node-template:active {
+  cursor: grabbing;
+  transform: translateY(0);
+}
+
+.node-icon {
+  font-size: 18px;
+  color: #1890ff;
+  margin-bottom: 4px;
+}
+
+.node-label {
+  font-size: 12px;
+  color: #333;
+  text-align: center;
+}
+
+/* 控制面板 */
+.flowgram-control-panel {
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #e8e8e8;
+  padding: 12px;
+}
+
+/* 工具栏 */
+.flowgram-tools {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  z-index: 100;
+  background: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e8e8e8;
+}
+
+/* 小地图 */
+.flowgram-minimap {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100;
+  width: 200px;
+  height: 120px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e8e8e8;
+  overflow: hidden;
+}
+
+/* FlowGram 节点样式 */
+.flowgram-start-node,
+.flowgram-end-node,
+.flowgram-base-node {
+  min-width: 200px;
+  min-height: 80px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 2px solid #e8e8e8;
+  overflow: hidden;
+  transition: all 0.2s;
+}
+
+.flowgram-start-node:hover,
+.flowgram-end-node:hover,
+.flowgram-base-node:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+.flowgram-start-node {
+  border-color: #52c41a;
+}
+
+.flowgram-end-node {
+  border-color: #ff4d4f;
+}
+
+.flowgram-base-node {
+  border-color: #1890ff;
+}
+
+.node-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  font-weight: 500;
+  font-size: 14px;
+  color: white;
+}
+
+.node-title.start {
+  background: #52c41a;
+}
+
+.node-title.end {
+  background: #ff4d4f;
+}
+
+.node-title:not(.start):not(.end) {
+  background: #1890ff;
+}
+
+.node-content {
+  padding: 12px;
+  background: white;
+}
+
+.node-description {
+  font-size: 12px;
+  color: #666;
+  line-height: 1.4;
+}
+
+.node-content input {
+  width: 100%;
+  padding: 4px 8px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  font-size: 12px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.node-content input:focus {
+  border-color: #1890ff;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+/* FlowGram 编辑器全局样式覆盖 */
+.flowgram-editor-container .flow-editor-background {
+  background: #f8f9fa;
+}
+
+.flowgram-editor-container .flow-editor-grid {
+  stroke: #e8e8e8;
+  stroke-width: 1;
+}
+
+.flowgram-editor-container .flow-editor-line {
+  stroke: #1890ff;
+  stroke-width: 2;
+}
+
+.flowgram-editor-container .flow-editor-line:hover {
+  stroke: #40a9ff;
+  stroke-width: 3;
+}
+
+.flowgram-editor-container .flow-editor-port {
+  fill: #1890ff;
+  stroke: white;
+  stroke-width: 2;
+}
+
+.flowgram-editor-container .flow-editor-port:hover {
+  fill: #40a9ff;
+  transform: scale(1.2);
+}
+
+/* 响应式设计 */
+@media (max-width: 1200px) {
+  .flowgram-sidebar {
+    width: 240px;
+    min-width: 240px;
+  }
+  
+  .node-list {
+    grid-template-columns: 1fr;
+  }
+  
+  .flowgram-minimap {
+    width: 160px;
+    height: 100px;
+  }
+}
+
+@media (max-width: 768px) {
+  .workflow-canvas-card {
+    height: 500px;
+    margin: 10px 0;
+  }
+  
+  .flowgram-layout {
+    flex-direction: column;
+  }
+  
+  .flowgram-sidebar {
+    width: 100%;
+    min-width: unset;
+    height: 200px;
+    flex-direction: row;
+    gap: 8px;
+    padding: 8px;
+  }
+  
+  .flowgram-node-panel,
+  .flowgram-control-panel {
+    flex: 1;
+    min-width: 200px;
+  }
+  
+  .node-list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px;
+  }
+  
+  .node-template {
+    min-height: 40px;
+    padding: 8px 4px;
+  }
+  
+  .node-icon {
+    font-size: 14px;
+    margin-bottom: 2px;
+  }
+  
+  .node-label {
+    font-size: 10px;
+  }
+  
+  .flowgram-tools {
+    bottom: 10px;
+    left: 10px;
+    padding: 4px 8px;
+  }
+  
+  .flowgram-minimap {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .workflow-canvas-card {
+    height: 400px;
+    margin: 5px 0;
+  }
+  
+  .workflow-header {
+    padding: 12px 16px;
+  }
+  
+  .workflow-header h4 {
+    font-size: 14px;
+  }
+  
+  .workflow-header .ant-typography {
+    font-size: 11px;
+  }
+}
+
+/* 加载状态 */
+.workflow-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  background: #fafafa;
+}
+
+/* 错误状态 */
+.workflow-error {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  background: #fafafa;
+  color: #ff4d4f;
+}
+
+.workflow-error .ant-typography {
+  margin-top: 8px;
+  color: #666;
+}
+
+/* 节点选中状态 */
+.flowgram-start-node.selected,
+.flowgram-end-node.selected,
+.flowgram-base-node.selected {
+  box-shadow: 0 0 0 3px rgba(24, 144, 255, 0.3);
+}
+
+/* 滚动条样式 */
+.flowgram-sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.flowgram-sidebar::-webkit-scrollbar-track {
+  background: #f0f0f0;
+  border-radius: 2px;
+}
+
+.flowgram-sidebar::-webkit-scrollbar-thumb {
+  background: #d9d9d9;
+  border-radius: 2px;
+}
+
+.flowgram-sidebar::-webkit-scrollbar-thumb:hover {
+  background: #bfbfbf;
+} 

@@ -5,9 +5,8 @@
       "args": ["-y",  "@playwright/mcp@latest"]
     },
     "resumeReader": {
-      "command": "npx",
+      "command": "node",
       "args": [
-        "-y",
         "F:\\Lynn\\编程\\cursor\\nodejs-sample-microblog\\mcp_server\\dist\\index.js",
         "fileDir",
         "F:\\Lynn\\简历\\LinGao_Resume2025_V2_Pure.docx"

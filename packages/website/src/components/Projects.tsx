@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
 import { Row, Col, Typography, Card, Button, Tag, Modal, Image, Space, Divider } from 'antd';
 import { GithubOutlined, LinkOutlined, CloseOutlined, CalendarOutlined, TeamOutlined } from '@ant-design/icons';
+import { 
+  SiVuedotjs, SiTypescript, SiVite, SiOpenai, SiDocker, 
+  SiKubernetes, SiRedis, SiMysql, SiReact, SiWebpack, SiJenkins,
+  SiExpress, SiNodedotjs, SiAmazon, SiNginx, SiJavascript, SiApacheecharts
+} from 'react-icons/si';
+import { DiHtml5, DiCss3 } from 'react-icons/di';
+import { CloudOutlined } from '@ant-design/icons';
 import desc1 from '../assets/低代码1.png';
 import abtest from '../assets/abtest.png';
 import channel from '../assets/channel2.png';
@@ -28,6 +35,53 @@ interface ProjectDetails {
 const Projects: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedProject, setSelectedProject] = useState<ProjectDetails | null>(null);
+
+  // 技术图标映射
+  const getTechIcon = (techName: string, size: number = 12) => {
+    const iconStyle = { fontSize: `${size}px` };
+    const iconMap: { [key: string]: React.ReactNode } = {
+      'Vue': <SiVuedotjs style={{ color: '#4FC08D', ...iconStyle }} />,
+      'Vue3': <SiVuedotjs style={{ color: '#4FC08D', ...iconStyle }} />,
+      'Vue 3': <SiVuedotjs style={{ color: '#4FC08D', ...iconStyle }} />,
+      'TypeScript': <SiTypescript style={{ color: '#3178C6', ...iconStyle }} />,
+      'JavaScript': <SiJavascript style={{ color: '#F7DF1E', ...iconStyle }} />,
+      'Vite': <SiVite style={{ color: '#646CFF', ...iconStyle }} />,
+      'React': <SiReact style={{ color: '#61DAFB', ...iconStyle }} />,
+      'React 18': <SiReact style={{ color: '#61DAFB', ...iconStyle }} />,
+      'Node.js': <SiNodedotjs style={{ color: '#339933', ...iconStyle }} />,
+      'Express': <SiExpress style={{ color: '#000000', ...iconStyle }} />,
+      'Docker': <SiDocker style={{ color: '#2496ED', ...iconStyle }} />,
+      'K8s': <SiKubernetes style={{ color: '#326CE5', ...iconStyle }} />,
+      'Kubernetes': <SiKubernetes style={{ color: '#326CE5', ...iconStyle }} />,
+      'Redis': <SiRedis style={{ color: '#DC382D', ...iconStyle }} />,
+      'MySQL': <SiMysql style={{ color: '#4479A1', ...iconStyle }} />,
+      'ECharts': <SiApacheecharts style={{ color: '#AA344D', ...iconStyle }} />,
+      'Jenkins': <SiJenkins style={{ color: '#D24939', ...iconStyle }} />,
+      'Webpack': <SiWebpack style={{ color: '#8DD6F9', ...iconStyle }} />,
+      'Nginx': <SiNginx style={{ color: '#009639', ...iconStyle }} />,
+      'OpenAI': <SiOpenai style={{ color: '#412991', ...iconStyle }} />,
+      'GPT-4': <SiOpenai style={{ color: '#412991', ...iconStyle }} />,
+      '阿里云': <CloudOutlined style={{ color: '#FF6A00', ...iconStyle }} />,
+      'AWS': <SiAmazon style={{ color: '#FF9900', ...iconStyle }} />,
+      'AI/LLM': <SiOpenai style={{ color: '#412991', ...iconStyle }} />,
+      '低代码': <span style={{ color: '#722ed1', ...iconStyle }}>🧩</span>,
+      '性能优化': <span style={{ color: '#eb2f96', ...iconStyle }}>⚡</span>,
+      '微前端': <SiReact style={{ color: '#61DAFB', ...iconStyle }} />,
+      'Hybrid': <span style={{ color: '#13c2c2', ...iconStyle }}>📱</span>,
+      'Midwayjs': <span style={{ color: '#722ed1', ...iconStyle }} ><img src='https://midwayjs.org/en/img/logo.svg' style={{ width: '14px', height: '14px' }} /></span>
+    };
+
+    // 尝试匹配技术名称（忽略大小写，支持部分匹配）
+    const normalizedTech = techName.toLowerCase();
+    for (const [key, icon] of Object.entries(iconMap)) {
+      if (normalizedTech.includes(key.toLowerCase()) || key.toLowerCase().includes(normalizedTech)) {
+        return icon;
+      }
+    }
+    
+    // 默认图标
+    return <span style={{ color: '#1890ff', ...iconStyle }}>🔧</span>;
+  };
 
   const projects: ProjectDetails[] = [
     {
@@ -251,8 +305,14 @@ const Projects: React.FC = () => {
                         border: 'none',
                         color: '#1890ff',
                         marginBottom: '4px',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '4px',
                       }}
                     >
+                      <span style={{ fontSize: '12px' }}>
+                        {getTechIcon(tag)}
+                      </span>
                       {tag}
                     </Tag>
                   ))}

@@ -6,6 +6,7 @@ import Hero from './components/Hero';
 import About from './components/About';
 import Skills from './components/Skills';
 import Projects from './components/Projects';
+import Gallery from './components/Gallery';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import ChatbotBubble from './components/ChatbotBubble';
@@ -17,6 +18,7 @@ const { Content } = Layout;
 const App: React.FC = () => {
   const RainAbout = RainSection(About);
   const RainProjects = RainSection(Projects);
+  const RainGallery = RainSection(Gallery);
   const RainContact = RainSection(Contact);
   return (
     <Layout style={{ minHeight: '100vh', backgroundColor: 'transparent' }}>
@@ -27,6 +29,7 @@ const App: React.FC = () => {
         <RainAbout />
         <Skills />
         <RainProjects />
+        <RainGallery />
         <RainContact />
       </Content>
       <Footer />

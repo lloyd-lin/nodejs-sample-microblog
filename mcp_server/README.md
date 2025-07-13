@@ -21,6 +21,10 @@ pnpm install
 # 仅安装 mcp_server 依赖
 pnpm --filter @nodejs-microblog/mcp-server install
 ```
+## 调式
+```bash
+npx @modelcontextprotocol/inspector node build/index.js
+```
 
 ## 使用方法
 

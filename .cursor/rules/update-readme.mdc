@@ -3,7 +3,8 @@ description:
 globs: 
 alwaysApply: false
 ---
-- 每当生成、修改或删除代码文件后，必须自动更新项目根目录的 README.md 文件。
+- 每当生成、修改或删除代码文件后，必须自动更新packages自身根目录的 README.md 文件。
+  - 比如packages/website目录下的变更应该更新到packages/website/README.md。
 - 在 README.md 文件中维护一个"变更记录"或"更新日志"部分，记录本次操作的详细信息。
 - 变更记录应包括：
   - 时间戳（使用当前日期）

@@ -1,0 +1,50 @@
+---
+description: API文档获取优先级规则 - 优先使用Context7 MCP服务
+globs: 
+alwaysApply: true
+---
+
+## API文档获取优先级规则
+
+### 核心原则
+- **优先使用Context7 MCP服务**：对于任何第三方库、框架或API的文档查询，首先尝试使用Context7的MCP服务获取最新、准确的文档信息
+- **避免过时信息**：减少依赖可能过时的搜索结果或缓存信息
+- **确保准确性**：通过官方或权威源获取API文档，提高代码质量和准确性
+
+### 具体规则
+
+1. **库文档查询流程**：
+   - 首先使用 `mcp_context7_resolve-library-id` 解析库名称获取Context7兼容的库ID
+   - 然后使用 `mcp_context7_get-library-docs` 获取详细文档
+   - 只有在Context7无法提供相关文档时，才考虑其他方式（如web搜索）
+
+2. **适用场景**：
+   - React、Vue、Angular等前端框架
+   - Node.js、Express、NestJS等后端框架
+   - 数据库ORM（如TypeORM、Prisma、Mongoose）
+   - UI库（如Ant Design、Material-UI、Chakra UI）
+   - 工具库（如Lodash、Moment.js、Day.js）
+   - 构建工具（如Webpack、Vite、Rollup）
+   - 测试框架（如Jest、Mocha、Cypress）
+   - 任何npm包或开源库
+
+3. **查询策略**：
+   - 对于具体的API使用问题，在topic参数中指定具体功能（如"hooks"、"routing"、"authentication"）
+   - 根据需要调整tokens参数以获取足够的上下文信息
+   - 优先获取最新版本的文档
+
+4. **fallback机制**：
+   - 如果Context7返回404或无法找到相关库，则记录该情况并使用web搜索作为备选
+   - 在使用备选方案时，明确说明Context7无法提供该库的文档
+
+### 实施要求
+- 在进行任何第三方库集成或问题排查时，必须首先尝试Context7服务
+- 在代码示例中引用API时，确保使用的是最新的、准确的API调用方式
+- 对于复杂的集成问题，优先获取官方文档而非社区教程或博客文章
+
+### 例外情况
+- 内部自定义库或私有包
+- 非常新的或实验性的库（可能尚未被Context7收录）
+- 特定的企业级或商业软件的API（需要特殊访问权限）
+
+通过遵循这些规则，确保开发过程中使用的API文档始终是最新、最准确的，提高代码质量和开发效率。

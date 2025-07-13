@@ -13,8 +13,8 @@ const Header: React.FC = () => {
       setIsScrolled(window.scrollY > 50);
       
       // 检测当前可见的section
-      const sections = ['hero', 'about', 'skills', 'projects', 'contact'];
-      const scrollPosition = window.scrollY + 64; // 使用视窗中心作为参考点
+      const sections = ['hero', 'about', 'skills', 'projects', 'gallery', 'contact'];
+      const scrollPosition = window.scrollY + window.innerHeight / 3; // 使用视窗中心作为参考点
       
       let activeSection = 'hero'; // 默认激活hero
       
@@ -46,6 +46,7 @@ const Header: React.FC = () => {
     { key: 'about', label: '关于' },
     { key: 'skills', label: '技能' },
     { key: 'projects', label: '项目' },
+    { key: 'gallery', label: '画廊' },
     { key: 'contact', label: '联系' },
   ];
 

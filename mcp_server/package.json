@@ -11,7 +11,8 @@
     "watch": "tsc --watch",
     "clean": "rimraf dist",
     "type-check": "tsc --noEmit",
-    "test": "echo \"No tests specified\" && exit 0"
+    "test": "echo \"No tests specified\" && exit 0",
+    "inspect": "npx @modelcontextprotocol/inspector node F:\\Lynn\\编程\\cursor\\nodejs-sample-microblog\\mcp_server\\dist\\index.js"
   },
   "keywords": [
     "mcp",
