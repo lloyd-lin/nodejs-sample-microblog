@@ -33,14 +33,15 @@ const { Title, Text } = Typography;
 const Skills: React.FC = () => {
   const radarChartRef = useRef<HTMLDivElement>(null);
 
-  const skillsPos = ["前端", "后端", "Devops", "AI集成", "团队管理"];
+  const skillsPos = ["前端", "后端", "Devops", "AI集成", "团队管理", "架构设计"];
   const skillsData = [
     {
-      前端: 8,
+      前端: 9,
       后端: 7,
       Devops: 7,
       AI集成: 6,
-      团队管理: 5,
+      团队管理: 6,
+      架构设计: 8,
     },
   ];
 
@@ -203,7 +204,7 @@ const Skills: React.FC = () => {
         backdropFilter: "blur(10px)",
       }}
     >
-      <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 24px" }}>
+      <div style={{ maxWidth: "1600px", margin: "0 auto", padding: "0 24px" }}>
         <div style={{ textAlign: "center", marginBottom: "80px" }}>
           <Title
             level={2}
@@ -227,7 +228,7 @@ const Skills: React.FC = () => {
         </div>
 
         <Row gutter={[48, 48]}>
-          <Col xs={24} lg={12}>
+          <Col xs={24} lg={6}>
             <Title
               level={3}
               style={{
@@ -248,7 +249,7 @@ const Skills: React.FC = () => {
                 width: "100%"
               }}
             >
-              <p>💡 基于项目经验和实际应用的技能评估</p>
+              <p>✊ 六边形战士前路漫漫</p>
             </div>
             <div
               ref={radarChartRef}
@@ -263,7 +264,7 @@ const Skills: React.FC = () => {
             />
           </Col>
 
-          <Col xs={24} lg={12}>
+          <Col xs={24} lg={18}>
             <Title
               level={3}
               style={{

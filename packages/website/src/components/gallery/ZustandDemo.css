@@ -1,0 +1,175 @@
+.zustand-demo {
+  padding: 20px;
+  background: #f5f5f5;
+  min-height: 100vh;
+}
+
+.zustand-header {
+  text-align: center;
+  margin-bottom: 32px;
+  padding: 24px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.zustand-row {
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.zustand-row .ant-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.zustand-section {
+  height: 100%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  flex: 1;
+}
+
+.zustand-section:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.counter-display {
+  text-align: center;
+  padding: 20px 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.counter-value {
+  color: white !important;
+  margin: 0 !important;
+  font-size: 48px !important;
+  font-weight: bold;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.user-profile {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.zustand-features {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.feature-item {
+  text-align: center;
+  padding: 16px;
+  background: #fafafa;
+  border-radius: 6px;
+  border: 1px solid #f0f0f0;
+  transition: all 0.3s ease;
+}
+
+.feature-item:hover {
+  background: #f0f8ff;
+  border-color: #1890ff;
+  transform: translateY(-1px);
+}
+
+.feature-item h5 {
+  margin-bottom: 8px !important;
+  color: #1890ff;
+}
+
+/* 待办事项列表样式 */
+.ant-list-item {
+  transition: all 0.3s ease;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  padding: 12px !important;
+  background: #fafafa;
+  border: 1px solid #f0f0f0 !important;
+}
+
+.ant-list-item:hover {
+  background: #f0f8ff;
+  border-color: #1890ff !important;
+  transform: translateX(4px);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .zustand-demo {
+    padding: 16px;
+  }
+  
+  .zustand-header {
+    padding: 16px;
+    margin-bottom: 24px;
+  }
+  
+  .counter-value {
+    font-size: 36px !important;
+  }
+  
+  .feature-item {
+    margin-bottom: 16px;
+  }
+}
+
+/* 动画效果 */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.zustand-section {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.zustand-section:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.zustand-section:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.zustand-section:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* 按钮组样式优化 */
+.ant-space-compact .ant-btn {
+  transition: all 0.3s ease;
+}
+
+.ant-space-compact .ant-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* 标签样式 */
+.ant-tag {
+  border-radius: 12px;
+  font-size: 11px;
+  padding: 2px 8px;
+}
+
+/* 头像样式 */
+.ant-avatar {
+  border: 3px solid #f0f0f0;
+  transition: all 0.3s ease;
+}
+
+.ant-avatar:hover {
+  border-color: #1890ff;
+  transform: scale(1.05);
+} 

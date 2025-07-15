@@ -3,6 +3,7 @@ import { Typography, Card, Button, Modal, Row, Col, Space } from 'antd';
 import { LeftOutlined, RightOutlined, EyeOutlined } from '@ant-design/icons';
 import WorkflowCanvas from './gallery/WorkflowCanvas';
 import StockChart from './gallery/StockChart';
+import ZustandDemo from './gallery/ZustandDemo';
 import './gallery/Gallery.css';
 
 const { Title, Paragraph } = Typography;
@@ -38,6 +39,14 @@ const Gallery: React.FC = () => {
       category: '可视化',
       component: StockChart,
       tags: ['图表', 'K线', '股票', '数据可视化']
+    },
+    {
+      id: 'zustand-demo',
+      title: 'Zustand 状态管理',
+      description: '轻量级React状态管理库演示，包含计数器、待办事项和用户管理',
+      category: '状态管理',
+      component: ZustandDemo,
+      tags: ['状态管理', 'React', 'TypeScript', 'Zustand']
     }
   ];
 

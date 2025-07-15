@@ -68,7 +68,8 @@ const Projects: React.FC = () => {
       '性能优化': <span style={{ color: '#eb2f96', ...iconStyle }}>⚡</span>,
       '微前端': <SiReact style={{ color: '#61DAFB', ...iconStyle }} />,
       'Hybrid': <span style={{ color: '#13c2c2', ...iconStyle }}>📱</span>,
-      'Midwayjs': <span style={{ color: '#722ed1', ...iconStyle }} ><img src='https://midwayjs.org/en/img/logo.svg' style={{ width: '14px', height: '14px' }} /></span>
+      'Midwayjs': <span style={{ color: '#722ed1', ...iconStyle }} ><img src='https://midwayjs.org/en/img/logo.svg' style={{ width: '14px', height: '14px' }} /></span>,
+      'Pinia': <span style={{ color: '#722ed1', ...iconStyle }} ><img src='https://pinia.vuejs.org/logo.svg' style={{ width: '14px', height: '14px' }} /></span>,
     };
 
     // 尝试匹配技术名称（忽略大小写，支持部分匹配）

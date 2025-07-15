@@ -32,6 +32,63 @@
   height: 100%;
 }
 
+/* Canvas容器样式 */
+.canvas-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 6px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.canvas-container canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 6px;
+}
+
+/* 背景层样式 */
+.canvas-container canvas:nth-child(1) {
+  z-index: 1;
+  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+}
+
+/* 数据层样式 */
+.canvas-container canvas:nth-child(2) {
+  z-index: 2;
+  mix-blend-mode: multiply;
+}
+
+/* 交互层样式 */
+.canvas-container canvas:nth-child(3) {
+  z-index: 3;
+  cursor: crosshair;
+  opacity: 0.8;
+}
+
+/* 覆盖层样式 */
+.canvas-container canvas:nth-child(4) {
+  z-index: 4;
+  pointer-events: none;
+}
+
+/* 图表性能优化 */
+.canvas-container canvas {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+/* 悬停效果 */
+.canvas-container:hover canvas:nth-child(3) {
+  opacity: 1;
+}
+
 .chart-preview-overlay {
   position: absolute;
   top: 50%;
@@ -43,6 +100,7 @@
   border: 1px solid #d9d9d9;
   z-index: 100;
   font-size: 12px;
+  backdrop-filter: blur(4px);
 }
 
 .loading-overlay {
@@ -57,6 +115,7 @@
   align-items: center;
   justify-content: center;
   z-index: 50;
+  backdrop-filter: blur(2px);
 }
 
 .loading-spinner {
@@ -74,6 +133,38 @@
   100% { transform: rotate(360deg); }
 }
 
+/* Canvas层叠加动画 */
+@keyframes layerFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.canvas-container canvas {
+  animation: layerFadeIn 0.5s ease-out forwards;
+}
+
+.canvas-container canvas:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.canvas-container canvas:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.canvas-container canvas:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.canvas-container canvas:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
 /* K线图自定义样式 */
 .stock-chart .echarts-tooltip {
   background: rgba(50, 50, 50, 0.9) !important;
@@ -81,6 +172,7 @@
   border-radius: 6px !important;
   color: white !important;
   font-size: 12px !important;
+  backdrop-filter: blur(8px) !important;
 }
 
 /* 价格统计样式 */
@@ -91,6 +183,23 @@
 
 .ant-statistic-content-value {
   font-weight: 600;
+}
+
+/* 工具栏增强样式 */
+.stock-toolbar {
+  background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+  border-bottom: 1px solid #e8e8e8;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.stock-toolbar .ant-btn {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.stock-toolbar .ant-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 /* 响应式设计 */
@@ -119,6 +228,14 @@
   .ant-statistic-content-value {
     font-size: 14px !important;
   }
+  
+  .canvas-container {
+    border-radius: 4px;
+  }
+  
+  .canvas-container canvas {
+    border-radius: 4px;
+  }
 }
 
 /* 图表主题定制 */
@@ -128,8 +245,40 @@
 
 .stock-chart .echarts-bar {
   opacity: 0.7;
+  transition: opacity 0.2s ease;
 }
 
 .stock-chart .echarts-bar:hover {
   opacity: 1;
+}
+
+/* 高DPI屏幕优化 */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .canvas-container canvas {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: optimize-contrast;
+  }
+}
+
+/* 深色模式支持 */
+@media (prefers-color-scheme: dark) {
+  .stock-chart-container {
+    background: #1f1f1f;
+    color: #ffffff;
+  }
+  
+  .stock-toolbar {
+    background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
+    border-bottom-color: #3a3a3a;
+  }
+  
+  .canvas-container canvas:nth-child(1) {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  }
+  
+  .chart-preview-overlay {
+    background: rgba(0, 0, 0, 0.9);
+    color: #ffffff;
+    border-color: #3a3a3a;
+  }
 } 
