@@ -43,11 +43,11 @@ const Header: React.FC = () => {
 
   const menuItems = [
     { key: 'hero', label: '首页' },
-    { key: 'about', label: '关于' },
-    { key: 'skills', label: '技能' },
-    { key: 'projects', label: '项目' },
-    { key: 'gallery', label: '画廊' },
-    { key: 'contact', label: '联系' },
+    { key: 'about', label: '关于我' },
+    { key: 'skills', label: '技术栈' },
+    { key: 'projects', label: '项目经历' },
+    { key: 'gallery', label: '样板间' },
+    { key: 'contact', label: '联系我' },
   ];
 
   const scrollToSection = (sectionId: string) => {

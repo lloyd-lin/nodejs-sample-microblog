@@ -4,6 +4,7 @@ import { LeftOutlined, RightOutlined, EyeOutlined } from '@ant-design/icons';
 import WorkflowCanvas from './gallery/WorkflowCanvas';
 import StockChart from './gallery/StockChart';
 import ZustandDemo from './gallery/ZustandDemo';
+import D3NetworkGraph from './gallery/D3NetworkGraph';
 import './gallery/Gallery.css';
 
 const { Title, Paragraph } = Typography;
@@ -47,6 +48,14 @@ const Gallery: React.FC = () => {
       category: '状态管理',
       component: ZustandDemo,
       tags: ['状态管理', 'React', 'TypeScript', 'Zustand']
+    },
+    {
+      id: 'd3-network-graph',
+      title: 'D3 技术栈关系图',
+      description: '基于D3.js的交互式力导向图，展示技术栈之间的关系和依赖',
+      category: '数据可视化',
+      component: D3NetworkGraph,
+      tags: ['D3.js', '网络图', '力导向', '技术栈', '交互式']
     }
   ];
 
