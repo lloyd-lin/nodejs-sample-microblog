@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Typography, Card, Button, Modal, Row, Col, Space } from 'antd';
+import { Typography, Card, Button, Modal, Row, Col, Space, Divider } from 'antd';
 import { LeftOutlined, RightOutlined, EyeOutlined } from '@ant-design/icons';
 import WorkflowCanvas from './gallery/WorkflowCanvas';
 import StockChart from './gallery/StockChart';
@@ -160,35 +160,29 @@ const Gallery: React.FC = () => {
         >
           {selectedItem && (
             <div className="modal-content">
-              <Row gutter={[24, 24]}>
-                <Col xs={24} lg={16}>
-                  <div className="demo-container">
-                    <selectedItem.component preview={false} />
-                  </div>
-                </Col>
-                <Col xs={24} lg={8}>
-                  <div className="demo-info">
-                    <div className="info-item">
-                      <h4>类别</h4>
-                      <p>{selectedItem.category}</p>
-                    </div>
-                    <div className="info-item">
-                      <h4>描述</h4>
-                      <p>{selectedItem.description}</p>
-                    </div>
-                    <div className="info-item">
-                      <h4>标签</h4>
-                      <Space wrap>
-                        {selectedItem.tags.map((tag, index) => (
-                          <span key={index} className="info-tag">
-                            {tag}
-                          </span>
-                        ))}
-                      </Space>
-                    </div>
-                  </div>
-                </Col>
-              </Row>
+              {/* 标题下方的详细信息 - 上下布局 */}
+              <div className="modal-header-info">
+                <div className="header-info-row">
+                  <span className="info-label">类别：</span>
+                  <span className="info-category">{selectedItem.category}</span>
+                  <Divider type="vertical" />
+                  <span className="info-description">{selectedItem.description}</span>
+                </div>
+                <div className="header-tags-row">
+                  <Space wrap size={[8, 4]}>
+                    {selectedItem.tags.map((tag, index) => (
+                      <span key={index} className="header-tag">
+                        {tag}
+                      </span>
+                    ))}
+                  </Space>
+                </div>
+              </div>
+              
+              {/* 组件展示区域 - 全宽度 */}
+              <div className="demo-container-full">
+                <selectedItem.component preview={false} />
+              </div>
             </div>
           )}
         </Modal>

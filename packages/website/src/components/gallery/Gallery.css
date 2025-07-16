@@ -178,7 +178,67 @@
 }
 
 .modal-content {
-  min-height: 500px;
+  min-height: 600px;
+}
+
+/* 新增：标题下方信息区域样式 */
+.modal-header-info {
+  margin-bottom: 24px;
+  padding: 16px 20px;
+  background: #fafafa;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.header-info-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.info-label {
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.info-category {
+  color: var(--accent-color);
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.info-description {
+  color: var(--text-primary);
+  font-size: 14px;
+  line-height: 1.5;
+  flex: 1;
+}
+
+.header-tags-row {
+  display: flex;
+  align-items: center;
+}
+
+.header-tag {
+  padding: 3px 10px;
+  background: white;
+  color: var(--text-secondary);
+  font-size: 12px;
+  border-radius: 14px;
+  font-weight: 500;
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
+}
+
+.header-tag:hover {
+  background: var(--accent-color);
+  color: white;
+  border-color: var(--accent-color);
 }
 
 .demo-container {
@@ -187,6 +247,16 @@
   overflow: hidden;
   background: white;
   min-height: 500px;
+}
+
+/* 更新：全宽度组件容器 */
+.demo-container-full {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow: hidden;
+  background: white;
+  min-height: 550px;
+  width: 100%;
 }
 
 .demo-info {

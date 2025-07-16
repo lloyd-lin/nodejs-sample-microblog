@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from "react";
-import { Row, Col, Typography, Tag, Space } from "antd";
+import React, { useEffect, useRef, useState } from "react";
+import { Row, Col, Typography, Tag, Space, Tooltip } from "antd";
 import { Chart } from "@antv/g2";
 import {
   SiReact,
@@ -35,7 +35,9 @@ import { CloudOutlined, RobotOutlined, CodeOutlined, DesktopOutlined } from '@an
 const { Title, Text } = Typography;
 
 const Skills: React.FC = () => {
-  const radarChartRef = useRef<HTMLDivElement>(null);
+  const previewChartRef = useRef<HTMLDivElement>(null);
+  const tooltipChartRef = useRef<HTMLDivElement>(null);
+  const [showTooltipRadar, setShowTooltipRadar] = useState(false);
 
   const skillsPos = ["前端", "后端", "Devops", "AI集成", "团队管理", "架构设计"];
   const skillsData = [
@@ -154,13 +156,13 @@ const Skills: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    if (radarChartRef.current) {
-      const chart = new Chart({
-        container: radarChartRef.current,
-        autoFit: true,
-        height: 300,
-      });
+  // 创建雷达图的函数
+  const createRadarChart = (container: HTMLDivElement, height: number) => {
+    const chart = new Chart({
+      container,
+      autoFit: true,
+      height,
+    });
 
     chart.options({
       type: "line",
@@ -171,8 +173,10 @@ const Skills: React.FC = () => {
         color: "name",
       },
       style: {
-        lineWidth: 1.5,
-        strokeOpacity: 0.4,
+        lineWidth: 2,
+        strokeOpacity: 0.8,
+        fill: "#1890ff",
+        fillOpacity: 0.1,
       },
       scale: Object.fromEntries(
         Array.from({ length: skillsPos.length }, (_, i) => [
@@ -189,12 +193,12 @@ const Skills: React.FC = () => {
           `position${i === 0 ? "" : i}`,
           {
             zIndex: 1,
-            titleFontSize: 10,
-            titleSpacing: 18,
+            titleFontSize: height > 150 ? 10 : 8,
+            titleSpacing: height > 150 ? 18 : 12,
             label: true,
             labelFill: "#000",
             labelOpacity: 0.45,
-            labelFontSize: 10,
+            labelFontSize: height > 150 ? 10 : 8,
             line: true,
             lineFill: "#000",
             lineOpacity: 0.25,
@@ -209,308 +213,356 @@ const Skills: React.FC = () => {
       ),
     });
 
-      chart.render();
+    chart.render();
+    return chart;
+  };
 
+  // 预览雷达图初始化
+  useEffect(() => {
+    if (previewChartRef.current) {
+      const chart = createRadarChart(previewChartRef.current, 100);
       return () => {
         chart.destroy();
       };
     }
   }, []);
 
+  // Tooltip雷达图初始化
+  useEffect(() => {
+    if (tooltipChartRef.current && showTooltipRadar) {
+      const chart = createRadarChart(tooltipChartRef.current, 300);
+      return () => {
+        chart.destroy();
+      };
+    }
+  }, [showTooltipRadar]);
+
   return (
     <section
       id="skills"
       style={{
-        padding: "80px 0",
-        backgroundColor: "#f8f9fa", // 整体保持浅灰背景形成对比
-        minHeight: "100vh",
+        padding: "80px 0 120px 0",
+        backgroundColor: "#f8f9fa",
+        position: "relative",
       }}
     >
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px" }}>
-        <Row gutter={[32, 32]}>
-          {/* 左侧：技能雷达图 */}
-          <Col xs={24} lg={8}>
-            <div
+        {/* 标题区域 - 包含六边形雷达图预览 */}
+        <div style={{ textAlign: "center", marginBottom: "80px" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "24px" }}>
+            <Title
+              level={2}
               style={{
-                background: "white", // 雷达图容器也改为白色
-                padding: "32px",
-                borderRadius: "16px",
-                boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
-                border: "1px solid #f0f0f0",
-                height: "100%",
-                display: "flex",
-                flexDirection: "column",
+                fontSize: "36px",
+                fontWeight: 300,
+                color: "#262626",
+                margin: 0,
               }}
             >
-              <div style={{ marginBottom: "24px", textAlign: "center" }}>
-                <Title level={3} style={{ margin: 0, color: "#1a1a1a" }}>
-                  技能雷达图
-                </Title>
-                <Text style={{ color: "#666", fontSize: "14px" }}>
-                  ✊六边形战士的漫漫前路
-                </Text>
-              </div>
-              <div ref={radarChartRef} style={{ flex: 1 }} />
-            </div>
-          </Col>
-
-          {/* 右侧：技术栈详情 */}
-          <Col xs={24} lg={16}>
-            <div
-              style={{
-                background: "white", // 技术栈容器改为白色
-                padding: "32px",
-                borderRadius: "16px",
-                boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
+              技能矩阵
+            </Title>
+            
+            {/* 六边形雷达图预览 */}
+            <Tooltip
+              title={
+                <div>
+                  <div style={{ marginBottom: "8px", fontWeight: "bold", textAlign: "center" }}>技能雷达图</div>
+                  <div ref={tooltipChartRef} style={{ width: "300px", height: "300px" }} />
+                  <div style={{ marginTop: "8px", fontSize: "12px", color: "#999", textAlign: "center" }}>
+                    六边形战士的漫漫前路
+                  </div>
+                </div>
+              }
+              overlayStyle={{ 
+                maxWidth: "350px",
+                backgroundColor: "white",
                 border: "1px solid #f0f0f0",
-                height: "100%",
-                maxHeight: "700px", // 设置最大高度
-                display: "flex",
-                flexDirection: "column",
+                borderRadius: "12px",
+                boxShadow: "0 8px 32px rgba(0, 0, 0, 0.12)",
               }}
+              color="white"
+              onOpenChange={(visible) => setShowTooltipRadar(visible)}
             >
-              <div style={{ marginBottom: "24px", textAlign: "center" }}>
-                <Title level={3} style={{ margin: 0, color: "#1a1a1a" }}>
-                  技术栈
-                </Title>
-                <Text style={{ color: "#666", fontSize: "14px" }}>
-                  全栈开发技术能力矩阵
-                </Text>
-              </div>
-              
-              {/* 可滚动的技术栈内容区域 */}
               <div
                 style={{
-                  flex: 1,
-                  overflowY: "auto",
-                  paddingRight: "8px",
-                  // 自定义滚动条样式
-                  scrollbarWidth: "thin",
-                  scrollbarColor: "#d9d9d9 transparent",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "120px",
+                  height: "120px",
+                  backgroundColor: "white",
+                  borderRadius: "16px",
+                  cursor: "pointer",
+                  transition: "all 0.3s ease",
+                  boxShadow: "0 4px 16px rgba(0, 0, 0, 0.08)",
+                  border: "2px solid #1890ff20",
+                  position: "relative",
+                  overflow: "hidden",
                 }}
-                className="tech-stack-scroll"
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "scale(1.05)";
+                  e.currentTarget.style.boxShadow = "0 8px 24px rgba(24, 144, 255, 0.15)";
+                  e.currentTarget.style.borderColor = "#1890ff40";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "scale(1)";
+                  e.currentTarget.style.boxShadow = "0 4px 16px rgba(0, 0, 0, 0.08)";
+                  e.currentTarget.style.borderColor = "#1890ff20";
+                }}
               >
-                <Row gutter={[16, 16]}>
-                  {techStackCategories.map((category, index) => (
-                    <Col xs={24} md={24} key={index}>
+                {/* 预览雷达图 */}
+                <div ref={previewChartRef} style={{ width: "100px", height: "100px" }} />
+                
+                {/* 角标提示 */}
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "8px",
+                    right: "8px",
+                    width: "16px",
+                    height: "16px",
+                    backgroundColor: "#1890ff",
+                    borderRadius: "50%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: "10px",
+                    color: "white",
+                    fontWeight: "bold",
+                  }}
+                >
+                  ⚡
+                </div>
+              </div>
+            </Tooltip>
+          </div>
+          
+          <div
+            style={{
+              width: "80px",
+              height: "3px",
+              background: "linear-gradient(90deg, #1890ff, #722ed1)",
+              margin: "24px auto",
+              borderRadius: "2px",
+            }}
+          />
+          <Text style={{ fontSize: "16px", color: "#666" }}>
+            全栈开发技术能力矩阵
+          </Text>
+        </div>
+
+        {/* 技术栈内容区域 - 全屏宽度展示 */}
+        <div
+          style={{
+            background: "white",
+            padding: "40px",
+            borderRadius: "20px",
+            boxShadow: "0 8px 32px rgba(0, 0, 0, 0.08)",
+            border: "1px solid #f0f0f0",
+          }}
+        >
+          <Row gutter={[24, 32]}>
+            {techStackCategories.map((category, index) => (
+              <Col xs={24} sm={12} lg={6} key={index}>
+                <div
+                  style={{
+                    background: "white",
+                    padding: "28px 20px",
+                    borderRadius: "16px",
+                    border: `2px solid ${category.themeColor}15`,
+                    boxShadow: "0 4px 16px rgba(0, 0, 0, 0.06)",
+                    transition: "all 0.3s ease",
+                    height: "100%",
+                    minHeight: "320px",
+                    position: "relative",
+                    overflow: "hidden",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translateY(-8px)";
+                    e.currentTarget.style.boxShadow = `0 12px 32px ${category.themeColor}20`;
+                    e.currentTarget.style.borderColor = `${category.themeColor}40`;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "translateY(0)";
+                    e.currentTarget.style.boxShadow = "0 4px 16px rgba(0, 0, 0, 0.06)";
+                    e.currentTarget.style.borderColor = `${category.themeColor}15`;
+                  }}
+                >
+                  {/* 顶部主题色装饰条 */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      height: "4px",
+                      background: `linear-gradient(90deg, ${category.themeColor}, ${category.themeColor}80)`,
+                    }}
+                  />
+                  
+                  {/* 类别标题和图标 */}
+                  <div style={{ 
+                    display: "flex", 
+                    flexDirection: "column",
+                    alignItems: "center", 
+                    marginBottom: "24px",
+                    paddingTop: "8px",
+                  }}>
+                    <span style={{ 
+                      color: category.themeColor, 
+                      fontSize: "32px", 
+                      marginBottom: "12px",
+                      display: "flex",
+                      alignItems: "center",
+                    }}>
+                      {category.icon}
+                    </span>
+                    <Text strong style={{ 
+                      fontSize: "16px", 
+                      color: "#1a1a1a",
+                      fontWeight: "600",
+                      textAlign: "center",
+                    }}>
+                      {category.category}
+                    </Text>
+                  </div>
+
+                  {/* 技术项目 */}
+                  <div style={{ 
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "12px",
+                  }}>
+                    {category.technologies.map((tech, techIndex) => (
                       <div
+                        key={techIndex}
                         style={{
-                          background: "white", // 卡片背景为纯白色
-                          padding: "24px",
-                          borderRadius: "12px",
-                          border: `2px solid ${category.themeColor}15`, // 使用主题色作为边框
-                          boxShadow: "0 2px 12px rgba(0, 0, 0, 0.06)",
-                          transition: "all 0.3s ease",
-                          height: "auto",
-                          minHeight: "260px", // 设置最小高度保证布局一致
+                          display: "flex",
+                          alignItems: "center",
+                          padding: "12px",
+                          borderRadius: "10px",
+                          border: `1px solid ${tech.color}20`,
+                          backgroundColor: `${tech.color}05`,
+                          cursor: "pointer",
                           position: "relative",
-                          overflow: "hidden",
+                          transition: "all 0.2s ease",
                         }}
                         onMouseEnter={(e) => {
-                          e.currentTarget.style.transform = "translateY(-4px)";
-                          e.currentTarget.style.boxShadow = `0 8px 24px ${category.themeColor}20`;
-                          e.currentTarget.style.borderColor = `${category.themeColor}40`;
+                          e.currentTarget.style.backgroundColor = `${tech.color}15`;
+                          e.currentTarget.style.borderColor = `${tech.color}40`;
+                          e.currentTarget.style.transform = "translateX(4px)";
                         }}
                         onMouseLeave={(e) => {
-                          e.currentTarget.style.transform = "translateY(0)";
-                          e.currentTarget.style.boxShadow = "0 2px 12px rgba(0, 0, 0, 0.06)";
-                          e.currentTarget.style.borderColor = `${category.themeColor}15`;
+                          e.currentTarget.style.backgroundColor = `${tech.color}05`;
+                          e.currentTarget.style.borderColor = `${tech.color}20`;
+                          e.currentTarget.style.transform = "translateX(0)";
                         }}
                       >
-                        {/* 顶部主题色装饰条 */}
-                        <div
-                          style={{
-                            position: "absolute",
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            height: "4px",
-                            background: `linear-gradient(90deg, ${category.themeColor}, ${category.themeColor}80)`,
-                          }}
-                        />
-                        
-                        {/* 类别标题和图标 - 水平布局 */}
-                        <div style={{ 
-                          display: "flex", 
-                          alignItems: "center", 
-                          justifyContent: "center",
-                          marginBottom: "20px",
-                          paddingTop: "8px",
+                        {/* 技能等级指示器 - 左侧 */}
+                        <span style={{
+                          display: "inline-block",
+                          width: "6px",
+                          height: "6px",
+                          borderRadius: "50%",
+                          backgroundColor: getLevelColor(tech.level),
+                          marginRight: "12px",
+                          flexShrink: 0,
+                        }} />
+
+                        {/* 图标 */}
+                        <div style={{
+                          fontSize: "20px",
+                          color: tech.color,
+                          display: "flex",
+                          alignItems: "center",
+                          marginRight: "12px",
+                          flexShrink: 0,
                         }}>
-                          <span style={{ 
-                            color: category.themeColor, 
-                            fontSize: "24px", 
-                            marginRight: "12px",
-                            display: "flex",
-                            alignItems: "center",
-                          }}>
-                            {category.icon}
-                          </span>
-                          <Text strong style={{ 
-                            fontSize: "18px", 
+                          {tech.icon}
+                        </div>
+
+                        {/* 技术名称和等级 */}
+                        <div style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          flex: 1,
+                          minWidth: 0,
+                        }}>
+                          <Text style={{
+                            fontSize: "13px",
+                            fontWeight: "600",
                             color: "#1a1a1a",
-                            fontWeight: "600", 
+                            lineHeight: "1.2",
+                            marginBottom: "2px",
                           }}>
-                            {category.category}
+                            {tech.name}
+                          </Text>
+
+                          <Text style={{
+                            fontSize: "11px",
+                            color: getLevelColor(tech.level),
+                            fontWeight: "500",
+                          }}>
+                            {tech.level}
                           </Text>
                         </div>
-
-                        {/* 技术项目 - 上下结构网格布局 */}
-                        <div style={{ 
-                          display: "grid",
-                          gridTemplateColumns: "repeat(auto-fit, minmax(80px, 1fr))",
-                          gap: "16px",
-                          justifyItems: "center",
-                        }}>
-                          {category.technologies.map((tech, techIndex) => (
-                            <div
-                              key={techIndex}
-                              className="tech-item"
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                alignItems: "center",
-                                padding: "16px 12px",
-                                borderRadius: "12px",
-                                border: `1px solid ${tech.color}20`,
-                                backgroundColor: `${tech.color}05`,
-                                cursor: "pointer",
-                                minWidth: "90px",
-                                position: "relative",
-                                height: "120px", // 固定高度保证对齐
-                                justifyContent: "space-between",
-                              }}
-                              onMouseEnter={(e) => {
-                                e.currentTarget.style.backgroundColor = `${tech.color}12`;
-                                e.currentTarget.style.borderColor = `${tech.color}40`;
-                                e.currentTarget.style.boxShadow = `0 6px 16px ${tech.color}25`;
-                              }}
-                              onMouseLeave={(e) => {
-                                e.currentTarget.style.backgroundColor = `${tech.color}05`;
-                                e.currentTarget.style.borderColor = `${tech.color}20`;
-                                e.currentTarget.style.boxShadow = "none";
-                              }}
-                            >
-                              {/* 技能等级指示器 - 右上角 */}
-                              <span style={{
-                                position: "absolute",
-                                top: "6px",
-                                right: "6px",
-                                display: "inline-block",
-                                width: "8px",
-                                height: "8px",
-                                borderRadius: "50%",
-                                backgroundColor: getLevelColor(tech.level),
-                                boxShadow: `0 0 6px ${getLevelColor(tech.level)}60`,
-                                border: "2px solid white",
-                              }} />
-
-                              {/* 图标 - 更大的尺寸 */}
-                              <div style={{
-                                fontSize: "40px",
-                                color: tech.color,
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                height: "50px",
-                                flex: "0 0 auto",
-                              }}>
-                                {tech.icon}
-                              </div>
-
-                              {/* 技术名称和等级 */}
-                              <div style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                alignItems: "center",
-                                gap: "4px",
-                                flex: "1 1 auto",
-                                justifyContent: "center",
-                              }}>
-                                <Text style={{
-                                  fontSize: "12px",
-                                  fontWeight: "600",
-                                  color: "#1a1a1a",
-                                  textAlign: "center",
-                                  lineHeight: "1.2",
-                                  wordBreak: "break-word",
-                                  maxWidth: "100%",
-                                }}>
-                                  {tech.name}
-                                </Text>
-
-                                <Text style={{
-                                  fontSize: "10px",
-                                  color: getLevelColor(tech.level),
-                                  fontWeight: "600",
-                                  textAlign: "center",
-                                  padding: "2px 6px",
-                                  borderRadius: "8px",
-                                  backgroundColor: `${getLevelColor(tech.level)}15`,
-                                  border: `1px solid ${getLevelColor(tech.level)}30`,
-                                }}>
-                                  {tech.level}
-                                </Text>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
                       </div>
-                    </Col>
-                  ))}
-                </Row>
-              </div>
-              
-              {/* 技能等级说明 - 固定在底部 */}
-              <div style={{ 
-                marginTop: "16px", 
-                padding: "16px",
-                backgroundColor: "#fafbfc",
-                borderRadius: "12px",
-                border: "1px solid #f0f0f0",
-                textAlign: "center",
-                flexShrink: 0, // 防止被压缩
-              }}>
-                <Text style={{ fontSize: "13px", color: "#666", fontWeight: "500" }}>技能等级说明</Text>
-                <Space size={24} style={{ marginTop: "8px" }}>
-                  <span style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                    <span style={{ 
-                      display: "inline-block", 
-                      width: "8px", 
-                      height: "8px", 
-                      borderRadius: "50%", 
-                      backgroundColor: "#52c41a",
-                      boxShadow: "0 0 4px #52c41a50",
-                    }} />
-                    <Text style={{ fontSize: "12px", color: "#666" }}>精通</Text>
-                  </span>
-                  <span style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                    <span style={{ 
-                      display: "inline-block", 
-                      width: "8px", 
-                      height: "8px", 
-                      borderRadius: "50%", 
-                      backgroundColor: "#1890ff",
-                      boxShadow: "0 0 4px #1890ff50",
-                    }} />
-                    <Text style={{ fontSize: "12px", color: "#666" }}>熟练</Text>
-                  </span>
-                  <span style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                    <span style={{ 
-                      display: "inline-block", 
-                      width: "8px", 
-                      height: "8px", 
-                      borderRadius: "50%", 
-                      backgroundColor: "#faad14",
-                      boxShadow: "0 0 4px #faad1450",
-                    }} />
-                    <Text style={{ fontSize: "12px", color: "#666" }}>了解</Text>
-                  </span>
-                </Space>
-              </div>
-            </div>
-          </Col>
-        </Row>
+                    ))}
+                  </div>
+                </div>
+              </Col>
+            ))}
+          </Row>
+          
+          {/* 技能等级说明 - 固定在底部 */}
+          <div style={{ 
+            marginTop: "32px", 
+            padding: "20px",
+            backgroundColor: "#fafbfc",
+            borderRadius: "16px",
+            border: "1px solid #f0f0f0",
+            textAlign: "center",
+          }}>
+            <Text style={{ fontSize: "14px", color: "#666", fontWeight: "500", marginBottom: "12px", display: "block" }}>
+              技能等级说明
+            </Text>
+            <Space size={32}>
+              <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <span style={{ 
+                  display: "inline-block", 
+                  width: "10px", 
+                  height: "10px", 
+                  borderRadius: "50%", 
+                  backgroundColor: "#52c41a",
+                  boxShadow: "0 0 6px #52c41a50",
+                }} />
+                <Text style={{ fontSize: "13px", color: "#666", fontWeight: "500" }}>精通</Text>
+              </span>
+              <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <span style={{ 
+                  display: "inline-block", 
+                  width: "10px", 
+                  height: "10px", 
+                  borderRadius: "50%", 
+                  backgroundColor: "#1890ff",
+                  boxShadow: "0 0 6px #1890ff50",
+                }} />
+                <Text style={{ fontSize: "13px", color: "#666", fontWeight: "500" }}>熟练</Text>
+              </span>
+              <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <span style={{ 
+                  display: "inline-block", 
+                  width: "10px", 
+                  height: "10px", 
+                  borderRadius: "50%", 
+                  backgroundColor: "#faad14",
+                  boxShadow: "0 0 6px #faad1450",
+                }} />
+                <Text style={{ fontSize: "13px", color: "#666", fontWeight: "500" }}>了解</Text>
+              </span>
+            </Space>
+          </div>
+        </div>
       </div>
     </section>
   );
