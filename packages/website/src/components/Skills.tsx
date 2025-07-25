@@ -247,145 +247,139 @@ const Skills: React.FC = () => {
       }}
     >
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px" }}>
-        {/* 标题区域 - 包含六边形雷达图预览 */}
-        <div style={{ textAlign: "center", marginBottom: "80px" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "24px" }}>
-            <Title
-              level={2}
-              style={{
-                fontSize: "36px",
-                fontWeight: 300,
-                color: "#262626",
-                margin: 0,
-              }}
-            >
-              技能矩阵
-            </Title>
-            
-            {/* 六边形雷达图预览 */}
-            <Tooltip
-              title={
-                <div>
-                  <div style={{ marginBottom: "8px", fontWeight: "bold", textAlign: "center" }}>技能雷达图</div>
-                  <div ref={tooltipChartRef} style={{ width: "300px", height: "300px" }} />
-                  <div style={{ marginTop: "8px", fontSize: "12px", color: "#999", textAlign: "center" }}>
-                    六边形战士的漫漫前路
-                  </div>
-                </div>
-              }
-              overlayStyle={{ 
-                maxWidth: "350px",
-                backgroundColor: "white",
-                border: "1px solid #f0f0f0",
-                borderRadius: "12px",
-                boxShadow: "0 8px 32px rgba(0, 0, 0, 0.12)",
-              }}
-              color="white"
-              onOpenChange={(visible) => setShowTooltipRadar(visible)}
-            >
-              <div
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  width: "120px",
-                  height: "120px",
-                  backgroundColor: "white",
-                  borderRadius: "16px",
-                  cursor: "pointer",
-                  transition: "all 0.3s ease",
-                  boxShadow: "0 4px 16px rgba(0, 0, 0, 0.08)",
-                  border: "2px solid #1890ff20",
-                  position: "relative",
-                  overflow: "hidden",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "scale(1.05)";
-                  e.currentTarget.style.boxShadow = "0 8px 24px rgba(24, 144, 255, 0.15)";
-                  e.currentTarget.style.borderColor = "#1890ff40";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "scale(1)";
-                  e.currentTarget.style.boxShadow = "0 4px 16px rgba(0, 0, 0, 0.08)";
-                  e.currentTarget.style.borderColor = "#1890ff20";
-                }}
-              >
-                {/* 预览雷达图 */}
-                <div ref={previewChartRef} style={{ width: "100px", height: "100px" }} />
-                
-                {/* 角标提示 */}
-                <div
-                  style={{
-                    position: "absolute",
-                    top: "8px",
-                    right: "8px",
-                    width: "16px",
-                    height: "16px",
-                    backgroundColor: "#1890ff",
-                    borderRadius: "50%",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: "10px",
-                    color: "white",
-                    fontWeight: "bold",
-                  }}
-                >
-                  ⚡
+        {/* 标题区域 - 横向紧凑布局 */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-start", gap: "24px", marginBottom: "32px" }}>
+          <Title
+            level={2}
+            style={{
+              fontSize: "28px",
+              fontWeight: 400,
+              color: "#262626",
+              margin: 0,
+              whiteSpace: "nowrap",
+            }}
+          >
+            技能矩阵
+          </Title>
+          {/* 六边形雷达图预览 */}
+          <Tooltip
+            title={
+              <div>
+                <div style={{ marginBottom: "8px", fontWeight: "bold", textAlign: "center" }}>技能雷达图</div>
+                <div ref={tooltipChartRef} style={{ width: "300px", height: "300px" }} />
+                <div style={{ marginTop: "8px", fontSize: "12px", color: "#999", textAlign: "center" }}>
+                  六边形战士的漫漫前路
                 </div>
               </div>
-            </Tooltip>
-          </div>
-          
-          <div
-            style={{
-              width: "80px",
-              height: "3px",
-              background: "linear-gradient(90deg, #1890ff, #722ed1)",
-              margin: "24px auto",
-              borderRadius: "2px",
+            }
+            overlayStyle={{
+              maxWidth: "350px",
+              backgroundColor: "white",
+              border: "1px solid #f0f0f0",
+              borderRadius: "12px",
+              boxShadow: "0 8px 32px rgba(0, 0, 0, 0.12)",
             }}
-          />
-          <Text style={{ fontSize: "16px", color: "#666" }}>
+            color="white"
+            onOpenChange={(visible) => setShowTooltipRadar(visible)}
+          >
+            <div
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "80px",
+                height: "80px",
+                backgroundColor: "white",
+                borderRadius: "12px",
+                cursor: "pointer",
+                transition: "all 0.3s ease",
+                boxShadow: "0 2px 8px rgba(0, 0, 0, 0.08)",
+                border: "2px solid #1890ff20",
+                position: "relative",
+                overflow: "hidden",
+              }}
+            >
+              {/* 预览雷达图 */}
+              <div ref={previewChartRef} style={{ width: "60px", height: "60px" }} />
+              {/* 角标提示 */}
+              <div
+                style={{
+                  position: "absolute",
+                  top: "4px",
+                  right: "4px",
+                  width: "14px",
+                  height: "14px",
+                  backgroundColor: "#1890ff",
+                  borderRadius: "50%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "9px",
+                  color: "white",
+                  fontWeight: "bold",
+                }}
+              >
+                ⚡
+              </div>
+            </div>
+          </Tooltip>
+          {/* 副标题紧跟主标题右侧 */}
+          <Text style={{ fontSize: "15px", color: "#666", marginLeft: 16 }}>
             全栈开发技术能力矩阵
           </Text>
+          {/* 技能等级说明 Tooltip */}
+          <Tooltip
+            title={
+              <div>
+                <div style={{ fontWeight: 500, marginBottom: 8 }}>技能等级说明</div>
+                <div style={{ display: "flex", gap: 16 }}>
+                  <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                    <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#52c41a", display: "inline-block", boxShadow: "0 0 6px #52c41a50" }} />
+                    <span style={{ fontSize: 13, color: "#666" }}>精通</span>
+                  </span>
+                  <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                    <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#1890ff", display: "inline-block", boxShadow: "0 0 6px #1890ff50" }} />
+                    <span style={{ fontSize: 13, color: "#666" }}>熟练</span>
+                  </span>
+                  <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                    <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#faad14", display: "inline-block", boxShadow: "0 0 6px #faad1450" }} />
+                    <span style={{ fontSize: 13, color: "#666" }}>了解</span>
+                  </span>
+                </div>
+              </div>
+            }
+            placement="bottom"
+          >
+            <span style={{ marginLeft: 16, cursor: "pointer", color: "#1890ff", fontSize: 16 }}>🛈</span>
+          </Tooltip>
         </div>
 
-        {/* 技术栈内容区域 - 全屏宽度展示 */}
+        {/* 技术栈内容区域 - 横向一行展示所有类别 */}
         <div
           style={{
             background: "white",
-            padding: "40px",
-            borderRadius: "20px",
-            boxShadow: "0 8px 32px rgba(0, 0, 0, 0.08)",
+            padding: "24px 16px",
+            borderRadius: "16px",
+            boxShadow: "0 4px 16px rgba(0, 0, 0, 0.06)",
             border: "1px solid #f0f0f0",
+            overflowX: "auto",
           }}
         >
-          <Row gutter={[24, 32]}>
+          <Row gutter={[16, 16]} wrap={false} style={{ minWidth: 1200 }}>
             {techStackCategories.map((category, index) => (
-              <Col xs={24} sm={12} lg={6} key={index}>
+              <Col xs={24} sm={12} md={8} lg={6} xl={3} key={index} style={{ minWidth: 180, flex: "0 0 180px" }}>
                 <div
                   style={{
                     background: "white",
-                    padding: "28px 20px",
-                    borderRadius: "16px",
+                    padding: "16px 8px",
+                    borderRadius: "12px",
                     border: `2px solid ${category.themeColor}15`,
-                    boxShadow: "0 4px 16px rgba(0, 0, 0, 0.06)",
+                    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.04)",
                     transition: "all 0.3s ease",
                     height: "100%",
-                    minHeight: "320px",
+                    minHeight: "160px",
                     position: "relative",
                     overflow: "hidden",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "translateY(-8px)";
-                    e.currentTarget.style.boxShadow = `0 12px 32px ${category.themeColor}20`;
-                    e.currentTarget.style.borderColor = `${category.themeColor}40`;
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = "translateY(0)";
-                    e.currentTarget.style.boxShadow = "0 4px 16px rgba(0, 0, 0, 0.06)";
-                    e.currentTarget.style.borderColor = `${category.themeColor}15`;
                   }}
                 >
                   {/* 顶部主题色装饰条 */}
@@ -395,117 +389,51 @@ const Skills: React.FC = () => {
                       top: 0,
                       left: 0,
                       right: 0,
-                      height: "4px",
+                      height: "3px",
                       background: `linear-gradient(90deg, ${category.themeColor}, ${category.themeColor}80)`,
                     }}
                   />
-                  
-                  {/* 类别标题和图标 */}
-                  <div style={{ 
-                    display: "flex", 
-                    flexDirection: "column",
-                    alignItems: "center", 
-                    marginBottom: "24px",
-                    paddingTop: "8px",
-                  }}>
-                    <span style={{ 
-                      color: category.themeColor, 
-                      fontSize: "32px", 
-                      marginBottom: "12px",
-                      display: "flex",
-                      alignItems: "center",
-                    }}>
+                  {/* 类别标题和图标横向排列 */}
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "12px", paddingTop: "4px", gap: 8 }}>
+                    <span style={{ color: category.themeColor, fontSize: "22px", display: "flex", alignItems: "center" }}>
                       {category.icon}
                     </span>
-                    <Text strong style={{ 
-                      fontSize: "16px", 
-                      color: "#1a1a1a",
-                      fontWeight: "600",
-                      textAlign: "center",
-                    }}>
+                    <Text strong style={{ fontSize: "14px", color: "#1a1a1a", fontWeight: 600, textAlign: "center", marginLeft: 4 }}>
                       {category.category}
                     </Text>
                   </div>
-
-                  {/* 技术项目 */}
-                  <div style={{ 
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "12px",
-                  }}>
+                  {/* 技术项目横向排列 */}
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", justifyContent: "center" }}>
                     {category.technologies.map((tech, techIndex) => (
                       <div
                         key={techIndex}
                         style={{
                           display: "flex",
                           alignItems: "center",
-                          padding: "12px",
-                          borderRadius: "10px",
+                          padding: "6px 8px",
+                          borderRadius: "8px",
                           border: `1px solid ${tech.color}20`,
                           backgroundColor: `${tech.color}05`,
                           cursor: "pointer",
                           position: "relative",
                           transition: "all 0.2s ease",
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.backgroundColor = `${tech.color}15`;
-                          e.currentTarget.style.borderColor = `${tech.color}40`;
-                          e.currentTarget.style.transform = "translateX(4px)";
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.backgroundColor = `${tech.color}05`;
-                          e.currentTarget.style.borderColor = `${tech.color}20`;
-                          e.currentTarget.style.transform = "translateX(0)";
+                          minWidth: 0,
                         }}
                       >
-                        {/* 技能等级指示器 - 左侧 */}
-                        <span style={{
-                          display: "inline-block",
-                          width: "6px",
-                          height: "6px",
-                          borderRadius: "50%",
-                          backgroundColor: getLevelColor(tech.level),
-                          marginRight: "12px",
-                          flexShrink: 0,
-                        }} />
-
+                        {/* 技能等级指示器 - 左侧小圆点 */}
+                        <span style={{ display: "inline-block", width: "6px", height: "6px", borderRadius: "50%", backgroundColor: getLevelColor(tech.level), marginRight: "6px", flexShrink: 0 }} />
                         {/* 图标 */}
-                        <div style={{
-                          fontSize: "20px",
-                          color: tech.color,
-                          display: "flex",
-                          alignItems: "center",
-                          marginRight: "12px",
-                          flexShrink: 0,
-                        }}>
+                        <span style={{ fontSize: "16px", color: tech.color, display: "flex", alignItems: "center", marginRight: "6px", flexShrink: 0 }}>
                           {tech.icon}
-                        </div>
-
-                        {/* 技术名称和等级 */}
-                        <div style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          flex: 1,
-                          minWidth: 0,
-                        }}>
-                          <Text style={{
-                            fontSize: "13px",
-                            fontWeight: "600",
-                            color: "#1a1a1a",
-                            lineHeight: "1.2",
-                            marginBottom: "2px",
-                          }}>
-                            {tech.name}
-                          </Text>
-
-                          <Text style={{
-                            fontSize: "11px",
-                            color: getLevelColor(tech.level),
-                            fontWeight: "500",
-                          }}>
-                            {tech.level}
-                          </Text>
-                        </div>
+                        </span>
+                        {/* 技术名称 */}
+                        <Text style={{ fontSize: "12px", fontWeight: 600, color: "#1a1a1a", marginRight: 4, whiteSpace: "nowrap" }}>
+                          {tech.name}
+                        </Text>
+                        {/* 技能等级（仅用颜色/圆点区分，文字可省略或缩写） */}
+                        <Text style={{ fontSize: "11px", color: getLevelColor(tech.level), fontWeight: 500, marginLeft: 2, whiteSpace: "nowrap" }}>
+                          {tech.level}
+                        </Text>
                       </div>
                     ))}
                   </div>
@@ -513,55 +441,6 @@ const Skills: React.FC = () => {
               </Col>
             ))}
           </Row>
-          
-          {/* 技能等级说明 - 固定在底部 */}
-          <div style={{ 
-            marginTop: "32px", 
-            padding: "20px",
-            backgroundColor: "#fafbfc",
-            borderRadius: "16px",
-            border: "1px solid #f0f0f0",
-            textAlign: "center",
-          }}>
-            <Text style={{ fontSize: "14px", color: "#666", fontWeight: "500", marginBottom: "12px", display: "block" }}>
-              技能等级说明
-            </Text>
-            <Space size={32}>
-              <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                <span style={{ 
-                  display: "inline-block", 
-                  width: "10px", 
-                  height: "10px", 
-                  borderRadius: "50%", 
-                  backgroundColor: "#52c41a",
-                  boxShadow: "0 0 6px #52c41a50",
-                }} />
-                <Text style={{ fontSize: "13px", color: "#666", fontWeight: "500" }}>精通</Text>
-              </span>
-              <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                <span style={{ 
-                  display: "inline-block", 
-                  width: "10px", 
-                  height: "10px", 
-                  borderRadius: "50%", 
-                  backgroundColor: "#1890ff",
-                  boxShadow: "0 0 6px #1890ff50",
-                }} />
-                <Text style={{ fontSize: "13px", color: "#666", fontWeight: "500" }}>熟练</Text>
-              </span>
-              <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                <span style={{ 
-                  display: "inline-block", 
-                  width: "10px", 
-                  height: "10px", 
-                  borderRadius: "50%", 
-                  backgroundColor: "#faad14",
-                  boxShadow: "0 0 6px #faad1450",
-                }} />
-                <Text style={{ fontSize: "13px", color: "#666", fontWeight: "500" }}>了解</Text>
-              </span>
-            </Space>
-          </div>
         </div>
       </div>
     </section>

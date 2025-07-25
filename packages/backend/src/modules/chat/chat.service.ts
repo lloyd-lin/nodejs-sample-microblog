@@ -2,7 +2,10 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Observable } from 'rxjs';
 import OpenAI from 'openai';
-import { ChatCompletionDto, ChatResponseDto, ChatMessageDto } from './dto/chat.dto';
+import { ChatCompletionDto, ChatResponseDto, } from './dto/chat.dto';
+import { jobAgentPrompt } from '../../prompt/job.agent';
+import * as fs from 'fs';
+import type { ChatCompletionMessageParam } from 'openai/resources/chat/completions';
 
 @Injectable()
 export class ChatService {
@@ -91,6 +94,66 @@ export class ChatService {
           role: msg.role,
           content: msg.content,
         })),
+        temperature,
+        max_tokens,
+        stream: true,
+      }).then(async (stream) => {
+        try {
+          for await (const chunk of stream) {
+            const sseData = this.formatOpenAIChunk(chunk);
+            if (sseData) {
+              observer.next(sseData);
+            }
+          }
+          observer.next('data: [DONE]\n\n');
+          observer.complete();
+        } catch (error) {
+          this.logger.error('Stream processing error:', error);
+          observer.error(error);
+        }
+      }).catch(error => {
+        this.logger.error('Stream creation error:', error);
+        observer.error(error);
+      });
+    });
+  }
+
+  /**
+   * 简历匹配度流式分析
+   */
+  resumeMatchChatStream(dto: ChatCompletionDto): Observable<string> {
+    // 读取简历内容
+    const { messages: userMsg, model = 'gpt-3.5-turbo', temperature = 0.7, max_tokens = 1000 } = dto;
+    const resumePath = __dirname + '/../../resume.json';
+    let resumeContent = '';
+    try {
+      resumeContent = fs.readFileSync(resumePath, 'utf-8');
+    } catch (e) {
+      this.logger.error('读取简历文件失败', e);
+      return new Observable(observer => {
+        observer.error(new Error('简历文件读取失败'));
+      });
+    }
+
+    // 构造系统 prompt
+    let systemPrompt = jobAgentPrompt + '\n\n';
+    systemPrompt += '候选人简历内容如下：\n' + resumeContent + '\n';
+    systemPrompt += '请根据上述内容，回答用户问题。';
+
+    // 构造消息
+    const messages: ChatCompletionMessageParam[] = [
+      { role: 'system', content: systemPrompt },
+      ... userMsg.map(msg => ({
+        role: msg.role,
+        content: msg.content,
+      }))
+    ];
+
+    // 流式调用 OpenAI
+    return new Observable(observer => {
+      this.openai.chat.completions.create({
+        model,
+        messages,
         temperature,
         max_tokens,
         stream: true,

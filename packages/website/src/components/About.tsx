@@ -8,18 +8,18 @@ const About: React.FC = () => {
   const highlights = [
     {
       icon: <CodeOutlined style={{ fontSize: '32px', color: '#1890ff' }} />,
-      title: '全栈技术专家',
-      description: '10+年开发经验，精通前后端技术栈，具备完整的Web全栈开发能力'
-    },
-    {
-      icon: <BgColorsOutlined style={{ fontSize: '32px', color: '#1890ff' }} />,
-      title: '团队领导力',
-      description: '4年Tech Lead经验，管理5-10人团队，具备跨团队协作和项目管理能力'
+      title: '全栈技术',
+      description: '10+年开发经验，掌握前后端技术栈，具备完整的Web全栈开发能力'
     },
     {
       icon: <RocketOutlined style={{ fontSize: '32px', color: '#1890ff' }} />,
       title: 'AI技术创新',
       description: '积极拥抱AI技术，有大模型集成、智能化场景落地等实践经验'
+    },
+    {
+      icon: <BgColorsOutlined style={{ fontSize: '32px', color: '#1890ff' }} />,
+      title: '团队领导力',
+      description: '4年管理经验，管理5-10人团队，具备跨团队协作和项目管理能力'
     }
   ];
 
@@ -91,7 +91,7 @@ const About: React.FC = () => {
                   lineHeight: 1.8,
                 }}
               >
-                作为Tech Lead，擅长团队管理和人才培养，建立完善的Code Review机制和知识管理体系。
+                作为小组Leader，进行团队管理和人才培养，建立完善的Code Review机制和知识管理体系。
                 热衷于技术分享和开源贡献，始终保持对新技术的学习热情。
               </Paragraph>
             </div>

@@ -44,9 +44,9 @@ const Header: React.FC = () => {
   const menuItems = [
     { key: 'hero', label: '首页' },
     { key: 'about', label: '关于我' },
-    { key: 'skills', label: '技术栈' },
-    { key: 'projects', label: '项目经历' },
     { key: 'gallery', label: '样板间' },
+    // { key: 'skills', label: '技术栈' },
+    { key: 'projects', label: '项目经历' },
     { key: 'contact', label: '联系我' },
   ];
 

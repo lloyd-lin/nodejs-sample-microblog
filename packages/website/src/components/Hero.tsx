@@ -83,7 +83,7 @@ const Hero: React.FC = () => {
                   textShadow: '1px 1px 2px rgba(0,0,0,0.8)',
                 }}
               >
-                资深全栈工程师 / 前端专家
+                资深全栈工程师 / 前端
               </Title>
 
               {/* 简介 */}

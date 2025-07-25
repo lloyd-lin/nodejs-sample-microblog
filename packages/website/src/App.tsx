@@ -17,9 +17,9 @@ const { Content } = Layout;
 
 const App: React.FC = () => {
   const RainAbout = RainSection(About);
-  const RainProjects = RainSection(Projects);
-  const RainGallery = RainSection(Gallery);
-  const RainContact = RainSection(Contact);
+  // const RainProjects = RainSection(Projects);
+  // const RainGallery = RainSection(Gallery);
+  // const RainContact = RainSection(Contact);
   return (
     <Layout style={{ minHeight: '100vh', backgroundColor: 'transparent' }}>
       <StarField />
@@ -27,10 +27,10 @@ const App: React.FC = () => {
       <Content>
         <Hero />
         <RainAbout />
-        <Skills />
-        <RainProjects />
-        <RainGallery />
-        <RainContact />
+        {/* <Skills /> */}
+        <Gallery />
+        <Projects />
+        <Contact />
       </Content>
       <Footer />
       <ChatbotBubble />

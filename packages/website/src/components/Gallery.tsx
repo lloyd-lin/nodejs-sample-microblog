@@ -5,6 +5,7 @@ import WorkflowCanvas from './gallery/WorkflowCanvas';
 import StockChart from './gallery/StockChart';
 import ZustandDemo from './gallery/ZustandDemo';
 import D3NetworkGraph from './gallery/D3NetworkGraph';
+import Gomoku from './gallery/Gomoku';
 import './gallery/Gallery.css';
 
 const { Title, Paragraph } = Typography;
@@ -56,8 +57,16 @@ const Gallery: React.FC = () => {
       category: '数据可视化',
       component: D3NetworkGraph,
       tags: ['D3.js', '网络图', '力导向', '技术栈', '交互式']
+    },
+    {
+      id: 'gomoku',
+      title: '五子棋',
+      description: '五子棋游戏，支持双人对战和AI对战',
+      category: '游戏',
+      component: Gomoku,
+      tags: ['五子棋', '游戏', '双人对战', 'AI对战']
     }
-  ];
+  ];  
 
   const handleItemClick = (item: GalleryItem) => {
     setSelectedItem(item);

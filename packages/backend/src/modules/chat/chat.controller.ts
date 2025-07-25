@@ -105,6 +105,53 @@ import {
       }
     }
   
+    @Post('resume-match-sse')
+    @ApiOperation({ summary: '简历匹配度分析 - SSE流式' })
+    @ApiResponse({
+      status: 200,
+      description: 'SSE流式简历匹配度分析响应',
+      headers: {
+        'Content-Type': { description: 'text/event-stream; charset=utf-8' },
+        'Cache-Control': { description: 'no-cache' },
+        Connection: { description: 'keep-alive' },
+      },
+    })
+    @ApiHeader({
+      name: 'Accept',
+      description: 'text/event-stream',
+      required: false,
+    })
+    async resumeMatchSse(
+      @Body(ValidationPipe) dto: ChatCompletionDto,
+      @Res() res: Response,
+    ) {
+      res.setHeader('Cache-Control', 'no-cache');
+      res.setHeader('Connection', 'keep-alive');
+      res.setHeader('Access-Control-Allow-Origin', '*');
+      res.setHeader('Access-Control-Allow-Headers', 'Cache-Control');
+      res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+      res.flushHeaders();
+      try {
+        const stream = this.chatService.resumeMatchChatStream(dto);
+        stream.subscribe({
+          next: (data) => {
+            res.write(data);
+          },
+          complete: () => {
+            res.end();
+          },
+          error: (error) => {
+            console.error('ResumeMatch SSE error:', error);
+            res.write(`data: {"error": "${error.message}"}\n\n`);
+            res.end();
+          },
+        });
+      } catch (error) {
+        console.error('Failed to create resume match stream:', error);
+        res.status(500).json({ error: 'Failed to create resume match stream' });
+      }
+    }
+  
     @Get('models')
     @ApiOperation({ summary: '获取可用模型列表' })
     @ApiResponse({

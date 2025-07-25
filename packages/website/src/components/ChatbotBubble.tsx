@@ -26,42 +26,16 @@ const ChatbotBubble: React.FC = () => {
   const [modalWidth, setModalWidth] = useState('50%');
   const [wasDragging, setWasDragging] = useState(false);
 
+  // Tooltip自动展示与抖动动画相关状态
+  const [tooltipVisible, setTooltipVisible] = useState(false);
+  const [shake, setShake] = useState(false);
+  const idleTimer = useRef<NodeJS.Timeout | null>(null);
+  const mouseMoveListener = useRef<any>(null);
+
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: '1',
-      content: `你好！我是Lloyd的AI助手 🤖
-
-## 关于我：
-
-我是 **Lloyd** 的个人智能助手，很高兴认识你！我可以帮你了解：
-
-### 👨‍💻 技术背景
-- **全栈开发** - Node.js、React、TypeScript 等技术栈
-- **项目经验** - 微博应用、聊天机器人、Web开发等
-- **技术特长** - 前后端开发、API设计、数据库设计
-
-### 🎯 我能为你做什么：
-- **技术交流** - 分享开发经验和技术见解
-- **项目介绍** - 展示作品和开发历程
-- **问题解答** - 技术问题咨询和解决方案
-- **职业规划** - 开发者成长路径讨论
-
-### 💬 聊天功能特色：
-1. **Markdown渲染** - 支持格式化文本显示
-2. **代码高亮** - 代码块语法高亮
-3. **实时对话** - 流式响应体验
-4. **智能回复** - AI驱动的对话能力
-
-> 💡 **提示**: 我的回复支持完整的Markdown语法，可以展示代码、表格、列表等格式！
-
-你可以问我：
-\`\`\`
-介绍一下你的技术栈？
-有什么有趣的项目可以分享？
-能给我一些学习建议吗？
-\`\`\`
-
-欢迎和我聊聊技术、项目或任何你感兴趣的话题！ 🚀`,
+      content: `你好！我是Lloyd的小助理 🤖\n\n---\n\n**我能做什么？**\n\n- 提供你我的个人简历，分析我的优势\n- 根据岗位描述，评估职位的匹配度\n\n**你可以这样问我：**\n\n\`\`\`\n你适合前端开发岗位吗？\n请分析他的技术栈与岗位要求的匹配度\n有哪些亮点或不足？\n\`\`\`\n\n> 💡 本助手基于专业简历分析，所有结论均基于简历内容和岗位要求，保持客观中立。\n\n请描述你的岗位需求，或直接提问关于我的问题吧！`,
       role: 'assistant',
       timestamp: new Date(),
     },
@@ -114,6 +88,37 @@ const ChatbotBubble: React.FC = () => {
     }
   }, [isOpen]);
 
+  // Tooltip自动展示与抖动动画相关状态
+  useEffect(() => {
+    // 初次进入3秒后展示
+    const timer = setTimeout(() => {
+      setTooltipVisible(true);
+      setShake(true);
+    }, 3000);
+    // 监听鼠标移动
+    const handleMouseMove = () => {
+      setTooltipVisible(false);
+      setShake(false);
+      if (idleTimer.current) clearTimeout(idleTimer.current);
+      idleTimer.current = setTimeout(() => {
+        setTooltipVisible(true);
+        setShake(true);
+      }, 10000);
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    mouseMoveListener.current = handleMouseMove;
+    return () => {
+      clearTimeout(timer);
+      if (idleTimer.current) clearTimeout(idleTimer.current);
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
+
+  // Tooltip关闭时停止抖动
+  useEffect(() => {
+    if (!tooltipVisible) setShake(false);
+  }, [tooltipVisible]);
+
   const generateId = () => {
     return Date.now().toString() + Math.random().toString(36).substr(2, 9);
   };
@@ -147,7 +152,7 @@ const ChatbotBubble: React.FC = () => {
 
     try {
       const response = await fetch(
-        'http://localhost:3001/api/chat/stream'  // 本地
+        'http://localhost:3001/api/chat/resume-match-sse'  // 本地
         // 'https://snsrxkkdqdpw.sealoshzh.site/api/chat/stream'
         , {
         method: 'POST',
@@ -376,8 +381,13 @@ const ChatbotBubble: React.FC = () => {
         }}
         onMouseDown={handleMouseDown}
       >
-        <Tooltip title={isDragging ? "拖拽中..." : "AI助手"} placement="left">
-          <Badge count={unreadCount} size="small" offset={[-5, 5]}>
+        <Tooltip
+          title="和AI简历助手聊聊吧！"
+          color="#1890ff"
+          open={tooltipVisible}
+          placement="left"
+        >
+          <Badge count={unreadCount > 0 ? unreadCount : undefined} offset={[-8, 8]}>
             <Button
               ref={buttonRef}
               type="primary"
@@ -394,7 +404,7 @@ const ChatbotBubble: React.FC = () => {
                 background: 'linear-gradient(135deg, #1890ff 0%, #096dd9 100%)',
                 border: 'none',
                 fontSize: '24px',
-                animation: isDragging ? 'none' : 'float 3s ease-in-out infinite',
+                animation: shake ? 'shake-bot 0.5s cubic-bezier(.36,.07,.19,.97) 0s 2' : (isDragging ? 'none' : 'float 3s ease-in-out infinite'),
                 transform: isDragging ? 'scale(1.1)' : 'scale(1)',
                 transition: isDragging ? 'none' : 'transform 0.2s ease, box-shadow 0.2s ease',
                 pointerEvents: 'auto',
@@ -403,12 +413,16 @@ const ChatbotBubble: React.FC = () => {
                 if (!isDragging) {
                   e.currentTarget.style.transform = 'scale(1.1)';
                   e.currentTarget.style.boxShadow = '0 6px 25px rgba(24, 144, 255, 0.6)';
+                  setTooltipVisible(true);
+                  setShake(true);
                 }
               }}
               onMouseLeave={(e) => {
                 if (!isDragging) {
                   e.currentTarget.style.transform = 'scale(1)';
                   e.currentTarget.style.boxShadow = '0 4px 20px rgba(24, 144, 255, 0.4)';
+                  setTooltipVisible(false);
+                  setShake(false);
                 }
               }}
             />
@@ -630,6 +644,14 @@ const ChatbotBubble: React.FC = () => {
           @keyframes float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-6px); }
+          }
+          @keyframes shake-bot {
+            0% { transform: scale(1) translateX(0); }
+            20% { transform: scale(1.08) translateX(-6px); }
+            40% { transform: scale(1.08) translateX(6px); }
+            60% { transform: scale(1.08) translateX(-4px); }
+            80% { transform: scale(1.08) translateX(4px); }
+            100% { transform: scale(1) translateX(0); }
           }
           
           @keyframes pulse {
