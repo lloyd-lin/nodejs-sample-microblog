@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Typography, Card, Button, Modal, Row, Col, Space, Divider } from 'antd';
 import { LeftOutlined, RightOutlined, EyeOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 import WorkflowCanvas from './gallery/WorkflowCanvas';
 import StockChart from './gallery/StockChart';
 import ZustandDemo from './gallery/ZustandDemo';
@@ -24,6 +25,7 @@ const Gallery: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   const galleryItems: GalleryItem[] = [
     {
@@ -69,6 +71,12 @@ const Gallery: React.FC = () => {
   ];  
 
   const handleItemClick = (item: GalleryItem) => {
+    // 工作流画布特殊处理 - 导航到独立页面
+    if (item.id === 'workflow-canvas') {
+      navigate('/workflow');
+      return;
+    }
+    
     setSelectedItem(item);
     setModalVisible(true);
   };

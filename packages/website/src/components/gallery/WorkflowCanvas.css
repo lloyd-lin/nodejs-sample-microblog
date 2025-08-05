@@ -1,4 +1,14 @@
 /* WorkflowCanvas 基础样式 */
+.workflow-canvas-container {
+  height: calc(100vh - 200px);
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
+  background: #f8f9fa;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
 .workflow-canvas-card {
   height: 700px;
   margin: 20px 0;

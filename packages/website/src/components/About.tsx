@@ -91,8 +91,8 @@ const About: React.FC = () => {
                   lineHeight: 1.8,
                 }}
               >
-                作为小组Leader，进行团队管理和人才培养，建立完善的Code Review机制和知识管理体系。
-                热衷于技术分享和开源贡献，始终保持对新技术的学习热情。
+                作为小组Leader，进行团队项目管理和人才培养，建立完善的Code Review机制和知识管理体系。
+                热衷于技术分享，始终保持对新技术的学习热情。
               </Paragraph>
             </div>
           </Col>
