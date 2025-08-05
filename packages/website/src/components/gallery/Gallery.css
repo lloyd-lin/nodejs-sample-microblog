@@ -29,6 +29,7 @@
   align-items: center;
   max-width: 100%;
   overflow: hidden;
+  padding: 0 12px;
 }
 
 .scroll-button {

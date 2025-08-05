@@ -1,0 +1,99 @@
+/* WorkflowPage 样式 */
+.workflow-page-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+}
+
+.workflow-page-content {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.workflow-page-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.workflow-page-header {
+  padding: 24px 32px;
+  border-bottom: 1px solid #f0f0f0;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.workflow-page-title {
+  margin: 0;
+  color: #2c3e50;
+}
+
+.workflow-page-subtitle {
+  font-size: 16px;
+  color: #666;
+  margin-top: 4px;
+}
+
+.workflow-page-back-button {
+  border-radius: 8px;
+  height: 40px;
+  padding: 0 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  color: white;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.workflow-page-back-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.workflow-page-body {
+  padding: 0;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .workflow-page-container {
+    padding: 10px;
+  }
+  
+  .workflow-page-header {
+    padding: 16px 20px;
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+  }
+  
+  .workflow-page-title {
+    font-size: 20px;
+  }
+  
+  .workflow-page-subtitle {
+    font-size: 14px;
+  }
+  
+  .workflow-page-back-button {
+    width: 100%;
+    max-width: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .workflow-page-header {
+    padding: 12px 16px;
+  }
+  
+  .workflow-page-title {
+    font-size: 18px;
+  }
+  
+  .workflow-page-subtitle {
+    font-size: 12px;
+  }
+} 

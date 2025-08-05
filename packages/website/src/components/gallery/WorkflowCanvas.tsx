@@ -29,6 +29,7 @@ import {
 } from '@flowgram.ai/free-layout-editor';
 import { FlowMinimapService, MinimapRender } from '@flowgram.ai/minimap-plugin';
 import { createMinimapPlugin } from '@flowgram.ai/minimap-plugin';
+import { createFreeSnapPlugin } from '@flowgram.ai/free-snap-plugin';
 import '@flowgram.ai/free-layout-editor/index.css';
 import './WorkflowCanvas.css';
 
@@ -122,6 +123,148 @@ const nodeRegistries: WorkflowNodeRegistry[] = [
         </>
       )
     }
+  },
+  {
+    type: 'condition',
+    meta: {
+      defaultPorts: [
+        { type: 'input' },
+        { type: 'output' },
+        { type: 'output' }
+      ]
+    },
+    formMeta: {
+      render: () => (
+        <>
+          <Field<string> name="title">
+            <div style={{ 
+              padding: '8px 16px', 
+              background: '#fa8c16', 
+              color: 'white',
+              borderRadius: '4px',
+              fontWeight: 'bold',
+              textAlign: 'center'
+            }}>
+              条件判断
+            </div>
+          </Field>
+          <Field<string> name="condition">
+            <div style={{ 
+              padding: '4px 8px', 
+              fontSize: '12px',
+              color: '#666',
+              textAlign: 'center'
+            }}>
+              判断条件
+            </div>
+          </Field>
+        </>
+      )
+    }
+  },
+  {
+    type: 'process',
+    meta: {
+      defaultPorts: [
+        { type: 'input' },
+        { type: 'output' }
+      ]
+    },
+    formMeta: {
+      render: () => (
+        <>
+          <Field<string> name="title">
+            <div style={{ 
+              padding: '8px 16px', 
+              background: '#722ed1', 
+              color: 'white',
+              borderRadius: '4px',
+              fontWeight: 'bold'
+            }}>
+              处理节点
+            </div>
+          </Field>
+          <Field<string> name="process">
+            <div style={{ 
+              padding: '4px 8px', 
+              fontSize: '12px',
+              color: '#666'
+            }}>
+              处理逻辑
+            </div>
+          </Field>
+        </>
+      )
+    }
+  },
+  {
+    type: 'data',
+    meta: {
+      defaultPorts: [
+        { type: 'output' }
+      ]
+    },
+    formMeta: {
+      render: () => (
+        <>
+          <Field<string> name="title">
+            <div style={{ 
+              padding: '8px 16px', 
+              background: '#13c2c2', 
+              color: 'white',
+              borderRadius: '4px',
+              fontWeight: 'bold'
+            }}>
+              数据节点
+            </div>
+          </Field>
+          <Field<string> name="dataSource">
+            <div style={{ 
+              padding: '4px 8px', 
+              fontSize: '12px',
+              color: '#666'
+            }}>
+              数据源
+            </div>
+          </Field>
+        </>
+      )
+    }
+  },
+  {
+    type: 'api',
+    meta: {
+      defaultPorts: [
+        { type: 'input' },
+        { type: 'output' }
+      ]
+    },
+    formMeta: {
+      render: () => (
+        <>
+          <Field<string> name="title">
+            <div style={{ 
+              padding: '8px 16px', 
+              background: '#eb2f96', 
+              color: 'white',
+              borderRadius: '4px',
+              fontWeight: 'bold'
+            }}>
+              API调用
+            </div>
+          </Field>
+          <Field<string> name="url">
+            <div style={{ 
+              padding: '4px 8px', 
+              fontSize: '12px',
+              color: '#666'
+            }}>
+              API地址
+            </div>
+          </Field>
+        </>
+      )
+    }
   }
 ];
 
@@ -157,12 +300,17 @@ const NodeAddPanel: React.FC = () => {
   const dragService = useService<WorkflowDragService>(WorkflowDragService);
 
   const handleDragStart = useCallback((nodeType: string, event: React.MouseEvent) => {
-    const nodeData = {
-      title: nodeType === 'start' ? '开始' : 
-             nodeType === 'end' ? '结束' : '自定义节点',
-      description: nodeType === 'custom' ? '可编辑内容' : ''
+    const nodeDataMap: Record<string, any> = {
+      start: { title: '开始' },
+      end: { title: '结束' },
+      custom: { title: '自定义节点', description: '可编辑内容' },
+      condition: { title: '条件判断', condition: '判断条件' },
+      process: { title: '处理节点', process: '处理逻辑' },
+      data: { title: '数据节点', dataSource: '数据源' },
+      api: { title: 'API调用', url: 'API地址' }
     };
     
+    const nodeData = nodeDataMap[nodeType] || { title: '未知节点' };
     dragService.startDragCard(nodeType, event as any, { data: nodeData });
   }, [dragService]);
 
@@ -185,6 +333,38 @@ const NodeAddPanel: React.FC = () => {
           style={{ background: '#e6f7ff', borderColor: '#91d5ff' }}
         >
           自定义节点
+        </Button>
+        <Button
+          icon={<BranchesOutlined />}
+          block
+          onMouseDown={(e) => handleDragStart('condition', e)}
+          style={{ background: '#fff7e6', borderColor: '#ffd591' }}
+        >
+          条件判断
+        </Button>
+        <Button
+          icon={<NodeIndexOutlined />}
+          block
+          onMouseDown={(e) => handleDragStart('process', e)}
+          style={{ background: '#f9f0ff', borderColor: '#d3adf7' }}
+        >
+          处理节点
+        </Button>
+        <Button
+          icon={<NodeIndexOutlined />}
+          block
+          onMouseDown={(e) => handleDragStart('data', e)}
+          style={{ background: '#e6fffb', borderColor: '#87e8de' }}
+        >
+          数据节点
+        </Button>
+        <Button
+          icon={<NodeIndexOutlined />}
+          block
+          onMouseDown={(e) => handleDragStart('api', e)}
+          style={{ background: '#fff0f6', borderColor: '#ffadd2' }}
+        >
+          API调用
         </Button>
         <Button
           icon={<BorderOutlined />}
@@ -301,8 +481,18 @@ const ControlPanel: React.FC = () => {
   }, [document]);
 
   const handleReset = useCallback(() => {
-    document.fromJSON(initialData);
-    message.info('工作流已重置');
+    try {
+      // 清空当前数据并重置到初始状态
+      document.clear();
+      setTimeout(() => {
+        document.fromJSON(initialData);
+        message.info('工作流已重置');
+        console.log('重置工作流:', initialData);
+      }, 50);
+    } catch (error) {
+      console.error('重置失败:', error);
+      message.error('重置失败，请重试');
+    }
   }, [document]);
 
   return (
@@ -338,11 +528,39 @@ const ControlPanel: React.FC = () => {
 
 // 编辑器配置Hook
 const useEditorProps = () => {
+  // const { document } = useClientContext();
+  
   return React.useMemo(() => ({
     background: true,
     readonly: false,
     initialData,
     nodeRegistries,
+    materials: {
+      renderDefaultNode: (props: WorkflowNodeProps) => {
+        const { form } = useNodeRender();
+        return (
+          <div 
+            onContextMenu={(e) => {
+              e.preventDefault();
+              const { node } = props;
+              if (node.type !== 'start' && node.type !== 'end') {
+                const confirmDelete = window.confirm('确定要删除这个节点吗？');
+                if (confirmDelete) {
+                  // document.removeNode
+                  message.success('节点已删除');
+                }
+              } else {
+                message.warning('开始和结束节点不能删除');
+              }
+            }}
+          >
+            <WorkflowNodeRenderer className="demo-free-node" node={props.node}>
+              {form?.render()}
+            </WorkflowNodeRenderer>
+          </div>
+        );
+      },
+    },
     onContentChange(ctx: any, event: any) {
       console.log('工作流数据变化:', event, ctx.document.toJSON());
     },
@@ -384,7 +602,18 @@ const useEditorProps = () => {
         },
         inactiveDebounceTime: 1,
       }),
+      // 自动对齐插件
+      createFreeSnapPlugin({
+        edgeColor: '#00B2B2',
+        alignColor: '#00B2B2',
+        edgeLineWidth: 1,
+        alignLineWidth: 1,
+        alignCrossWidth: 8,
+      }),
     ],
+    canDeleteNode: (ctx: any, node: any) => {
+      return node.type !== 'start' && node.type !== 'end';
+    }
   }), []);
 };
 
@@ -421,15 +650,9 @@ const FlowgramEditor: React.FC = () => {
 // 主组件
 const WorkflowCanvas: React.FC = () => {
   return (
-    <Card className="workflow-canvas-card">
-      <div className="workflow-header">
-        <Title level={4}>
-          <BranchesOutlined /> FlowGram.AI 工作流编辑器
-        </Title>
-        <Text type="secondary">基于字节跳动开源工作流引擎</Text>
-      </div>
+    <div className="workflow-canvas-container">
       <FlowgramEditor />
-    </Card>
+    </div>
   );
 };
 

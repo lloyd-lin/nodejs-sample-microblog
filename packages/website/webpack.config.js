@@ -85,7 +85,7 @@ module.exports = (env, argv) => {
     },
     plugins: [
       new HtmlWebpackPlugin({
-        template: './public/index.html',
+        template: './index.html',
         title: '随影而来 - 个人作品集',
       }),
       new CopyWebpackPlugin({
@@ -121,7 +121,7 @@ module.exports = (env, argv) => {
         },
       ],
       compress: true,
-      port: 3000,
+      port: 3001,
       hot: true,
       proxy: [
         // 代理本地/api路径到后端服务
