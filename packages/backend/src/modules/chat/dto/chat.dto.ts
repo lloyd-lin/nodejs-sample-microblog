@@ -70,15 +70,3 @@ export class ChatResponseDto {
     total_tokens: number;
   };
 } 
-
-export class ResumeMatchChatDto  extends ChatCompletionDto  {
-  @ApiProperty({ description: '用户查询内容', example: '该候选人是否适合前端开发岗位？' })
-  @IsString()
-  question: string;
-}
-
-export class ResumeMatchChatResponseDto {
-  @ApiProperty({ description: '流式响应内容' })
-  @IsString()
-  data: string;
-} 
