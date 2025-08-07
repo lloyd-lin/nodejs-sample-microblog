@@ -7,10 +7,15 @@ import compression from 'compression';
 import rateLimit from 'express-rate-limit';
 import { AppModule } from './app.module';
 import { json, urlencoded } from 'express';
+import { getTrustProxyConfig } from './config/trust-proxy.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
+
+  // 配置信任代理 - 解决X-Forwarded-For警告
+  const trustProxyConfig = getTrustProxyConfig(configService);
+  app.getHttpAdapter().getInstance().set('trust proxy', trustProxyConfig);
 
   // 全局前缀
   app.setGlobalPrefix('api');
@@ -27,8 +32,6 @@ async function bootstrap() {
   app.enableCors({
     origin: [
       configService.get('FRONTEND_URL') || 'http://localhost:3000',
-      'https://introduce.lgforest.fun',
-      'https://introduce.lgforest.fun/'
     ],
     credentials: true,
   });
