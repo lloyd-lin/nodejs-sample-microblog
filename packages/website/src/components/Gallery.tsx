@@ -7,6 +7,7 @@ import StockChart from './gallery/StockChart';
 import ZustandDemo from './gallery/ZustandDemo';
 import D3NetworkGraph from './gallery/D3NetworkGraph';
 import Gomoku from './gallery/Gomoku';
+import PhotoAnalysis from './gallery/ai/PhotoAnalysis';
 import './gallery/Gallery.css';
 
 const { Title, Paragraph } = Typography;
@@ -35,6 +36,14 @@ const Gallery: React.FC = () => {
       category: '工具',
       component: WorkflowCanvas,
       tags: ['拖拽', '流程', '画布', '节点编辑']
+    },
+    {
+      id: 'photo-analysis',
+      title: 'AI图片分析',
+      description: '上传图片，AI自动分析图片内容、识别对象并提供详细描述',
+      category: 'AI工具',
+      component: PhotoAnalysis,
+      tags: ['AI', '图片分析', '对象识别', '计算机视觉']
     },
     {
       id: 'stock-chart',
@@ -74,6 +83,12 @@ const Gallery: React.FC = () => {
     // 工作流画布特殊处理 - 导航到独立页面
     if (item.id === 'workflow-canvas') {
       navigate('/workflow');
+      return;
+    }
+    
+    // AI图片分析特殊处理 - 导航到独立页面
+    if (item.id === 'photo-analysis') {
+      navigate('/photo-analysis');
       return;
     }
     

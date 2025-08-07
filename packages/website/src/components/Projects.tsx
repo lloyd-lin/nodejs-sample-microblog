@@ -89,12 +89,12 @@ const Projects: React.FC = () => {
       title: '榫卯低代码平台 (蔚来)',
       description: '模型驱动的低代码平台，搭建端到端应用，集成AI能力实现代码生成和智能问数。单文件体积缩小75%，平台发布效率提升90%。',
       fullDescription: '榫卯是一个企业级的模型驱动低代码平台，旨在帮助开发者快速构建现代化的Web应用程序。平台集成了先进的AI能力，支持自然语言生成代码、智能问答等功能，大幅提升了开发效率。',
-      tags: ['TypeScript', 'Vue3', 'Midwayjs', 'AI/LLM', '低代码'],
+      tags: ['TypeScript', 'Vue3', 'Midwayjs', 'AI/LLM', '低代码', '微前端'],
       image: '#f0f8ff',
       desc: desc1,
-      duration: '2023.03 - 2024.01',
-      team: '15人团队',
-      role: '前端架构师 & 技术负责人',
+      duration: '2023.10 - 2025.05',
+      team: '12人团队',
+      role: '资深全栈工程师',
       achievements: [
         '单文件体积缩小75%，打包速度提升300%',
         '平台发布效率提升90%，开发周期从周缩短到天',
@@ -104,20 +104,20 @@ const Projects: React.FC = () => {
       ],
       technologies: [
         'Vue 3 + TypeScript 前端框架',
-        'Vite 构建工具 + Pinia 状态管理',
+        'Vite 构建',
         'Midway.js 全栈框架',
-        'OpenAI GPT-4 AI代码生成',
+        'AI代码生成',
         'Docker + K8s 容器化部署',
         'Redis + MySQL 数据存储'
       ],
       challenges: [
-        '复杂拖拽交互的性能优化',
-        'AI代码生成准确性与安全性平衡',
-        '多租户架构的权限控制',
+        '模型驱动理念',
+        '渲染自闭环',
+        '复杂系统集成',
+        'AI集成',
+        '权限和国际化',
         '大型表单的动态渲染优化'
-      ],
-      githubUrl: 'https://github.com/nio-platform',
-      demoUrl: 'https://lowcode.nio.com',
+      ]
     },
     {
       title: 'A/B测试实验平台 (快手)',
@@ -150,18 +150,16 @@ const Projects: React.FC = () => {
         '多维度数据筛选的交互设计',
         '跨团队协作的组件标准化'
       ],
-      githubUrl: 'https://github.com/kuaishou-abtest',
-      demoUrl: 'https://abtest.kuaishou.com',
     },
     {
       title: '渠道平台 (陆金所)',
       description: '移动金融平台前端架构，支持5+外部APP集成。通过标准化流程，新渠道接入周期从3周缩短到5天。',
       fullDescription: '为陆金所构建的企业级渠道管理平台，支持多渠道统一接入和管理。平台采用微前端架构，实现了高度的可扩展性和维护性，服务于数百万金融用户。',
-      tags: ['React', 'Node.js', 'Hybrid', '微前端'],
+      tags: ['React', 'Node.js', 'Hybrid', '金融系统'],
       image: '#fff2e8',
       duration: '2021.10 - 2022.07',
-      team: '20人团队',
-      role: '前端架构师',
+      team: '25人团队',
+      role: '前端Leader',
       desc: channel,
       achievements: [
         '新渠道接入周期从3周缩短到5天',
@@ -184,8 +182,6 @@ const Projects: React.FC = () => {
         '金融级安全标准的实现',
         '复杂业务流程的抽象和复用'
       ],
-      githubUrl: 'https://github.com/lufax-channel',
-      demoUrl: 'https://channel.lufax.com',
     }
   ];
 

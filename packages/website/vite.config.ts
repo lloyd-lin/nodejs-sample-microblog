@@ -9,7 +9,10 @@ export default defineConfig(({ command, mode }) => {
   return {
     publicDir: 'public',
     plugins: [
-      react()
+      react({
+        // 开发时启用JSX运行时
+        jsxRuntime: 'automatic'
+      })
     ],
     
     resolve: {
@@ -23,6 +26,32 @@ export default defineConfig(({ command, mode }) => {
       port: 3000,
       host: true,
       open: true,
+      // 增强热更新配置
+      hmr: {
+        // 启用WebSocket连接
+        port: 24678,
+        // 自动重连
+        overlay: true,
+        // 客户端重连间隔
+        clientPort: 24678
+      },
+      // 文件监听优化
+      watch: {
+        // 监听所有相关文件变化
+        usePolling: false,
+        // 忽略某些文件变化
+        ignored: [
+          '**/node_modules/**',
+          '**/dist/**',
+          '**/.git/**',
+          '**/coverage/**',
+          '**/test-results/**'
+        ]
+      },
+      // 开发服务器优化
+      cors: true,
+      // 强制预构建
+      force: true,
       proxy: {
         // 代理本地/api路径到后端服务
         '/api': {
@@ -62,7 +91,7 @@ export default defineConfig(({ command, mode }) => {
       sourcemap: !isProduction,
       rollupOptions: {
         input: {
-          main: resolve(__dirname, 'public/index.html')
+          main: resolve(__dirname, './index.html')
         },
         output: {
           // 保持与webpack相似的输出结构
@@ -82,12 +111,27 @@ export default defineConfig(({ command, mode }) => {
     },
     
     css: {
-      devSourcemap: !isProduction
+      devSourcemap: !isProduction,
+      // CSS热更新优化
+      modules: {
+        localsConvention: 'camelCase'
+      }
     },
     
     // 优化选项
     optimizeDeps: {
-      include: ['react', 'react-dom', 'react-router-dom']
+      include: [
+        'react', 
+        'react-dom', 
+        'react-router-dom',
+        'antd',
+        'echarts',
+        'd3',
+        'three',
+        'zustand'
+      ],
+      // 强制预构建
+      force: true
     },
     
     // 定义环境变量

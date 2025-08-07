@@ -426,3 +426,232 @@
 .flowgram-sidebar::-webkit-scrollbar-thumb:hover {
   background: #bfbfbf;
 } 
+
+.node-add-panel-button {
+  opacity: 0.8;
+  width: 100%;
+  max-width: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+}
+
+/* ===== 新增的优化节点样式 ===== */
+
+/* 节点内容容器 */
+.node-content {
+  padding: 0;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  min-width: 280px;
+  max-width: 350px;
+}
+
+/* 节点头部 */
+.node-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  border-radius: 8px 8px 0 0;
+}
+
+.node-header .anticon {
+  font-size: 16px;
+}
+
+/* 字段包装器样式 */
+.field-wrapper {
+  padding: 12px 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.field-wrapper:last-child {
+  border-bottom: none;
+}
+
+.field-label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #333;
+}
+
+.required-mark {
+  color: #ff4d4f;
+  font-weight: bold;
+}
+
+.field-content {
+  width: 100%;
+}
+
+.field-error {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #ff4d4f;
+  line-height: 1.4;
+}
+
+/* 表单控件样式优化 */
+.field-wrapper .ant-input,
+.field-wrapper .ant-input-number,
+.field-wrapper .ant-select {
+  width: 100%;
+}
+
+.field-wrapper .ant-input,
+.field-wrapper .ant-input-number {
+  border-radius: 6px;
+  border: 1px solid #d9d9d9;
+  transition: all 0.2s;
+}
+
+.field-wrapper .ant-input:focus,
+.field-wrapper .ant-input-number:focus,
+.field-wrapper .ant-select-focused .ant-select-selector {
+  border-color: #1890ff;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.1);
+}
+
+.field-wrapper .ant-textarea {
+  border-radius: 6px;
+  border: 1px solid #d9d9d9;
+  transition: all 0.2s;
+}
+
+.field-wrapper .ant-textarea:focus {
+  border-color: #1890ff;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.1);
+}
+
+.field-wrapper .ant-switch {
+  margin-top: 4px;
+}
+
+/* 节点类型特定样式 */
+.node-content[data-node-type="start"] .node-header {
+  background: linear-gradient(135deg, #52c41a, #73d13d);
+}
+
+.node-content[data-node-type="end"] .node-header {
+  background: linear-gradient(135deg, #f5222d, #ff7875);
+}
+
+.node-content[data-node-type="custom"] .node-header {
+  background: linear-gradient(135deg, #1890ff, #40a9ff);
+}
+
+.node-content[data-node-type="condition"] .node-header {
+  background: linear-gradient(135deg, #fa8c16, #ffc53d);
+}
+
+.node-content[data-node-type="process"] .node-header {
+  background: linear-gradient(135deg, #722ed1, #b37feb);
+}
+
+.node-content[data-node-type="data"] .node-header {
+  background: linear-gradient(135deg, #13c2c2, #36cfc9);
+}
+
+.node-content[data-node-type="api"] .node-header {
+  background: linear-gradient(135deg, #eb2f96, #f759ab);
+}
+
+/* 节点悬停效果 */
+.node-content:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+/* 字段组样式 */
+.field-group {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+}
+
+.field-group .field-wrapper {
+  flex: 1;
+  border-bottom: none;
+  padding: 8px 0;
+}
+
+/* 响应式字段布局 */
+@media (max-width: 480px) {
+  .node-content {
+    min-width: 240px;
+    max-width: 300px;
+  }
+  
+  .field-wrapper {
+    padding: 8px 12px;
+  }
+  
+  .node-header {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+  
+  .field-label {
+    font-size: 12px;
+    margin-bottom: 6px;
+  }
+}
+
+/* 动画效果 */
+.node-content {
+  animation: nodeSlideIn 0.3s ease-out;
+}
+
+@keyframes nodeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 表单验证状态 */
+.field-wrapper.has-error .ant-input,
+.field-wrapper.has-error .ant-input-number,
+.field-wrapper.has-error .ant-select .ant-select-selector,
+.field-wrapper.has-error .ant-textarea {
+  border-color: #ff4d4f;
+}
+
+.field-wrapper.has-error .ant-input:focus,
+.field-wrapper.has-error .ant-input-number:focus,
+.field-wrapper.has-error .ant-select-focused .ant-select-selector,
+.field-wrapper.has-error .ant-textarea:focus {
+  border-color: #ff4d4f;
+  box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.1);
+}
+
+/* 成功状态 */
+.field-wrapper.has-success .ant-input,
+.field-wrapper.has-success .ant-input-number,
+.field-wrapper.has-success .ant-select .ant-select-selector,
+.field-wrapper.has-success .ant-textarea {
+  border-color: #52c41a;
+}
+
+.field-wrapper.has-success .ant-input:focus,
+.field-wrapper.has-success .ant-input-number:focus,
+.field-wrapper.has-success .ant-select-focused .ant-select-selector,
+.field-wrapper.has-success .ant-textarea:focus {
+  border-color: #52c41a;
+  box-shadow: 0 0 0 2px rgba(82, 196, 26, 0.1);
+}

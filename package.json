@@ -11,6 +11,7 @@
     "type-check": "tsc --noEmit",
     "build:all": "pnpm -r build",
     "dev:website": "pnpm --filter @microblog/website dev",
+    "vite:website": "pnpm --filter @microblog/website vite:dev",
     "build:website": "pnpm --filter @microblog/website build",
     "dev:backend": "pnpm --filter @microblog/backend dev",
     "build:backend": "pnpm --filter @microblog/backend build",

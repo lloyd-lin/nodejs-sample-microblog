@@ -6,6 +6,7 @@ import helmet from 'helmet';
 import compression from 'compression';
 import rateLimit from 'express-rate-limit';
 import { AppModule } from './app.module';
+import { json, urlencoded } from 'express';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -14,13 +15,21 @@ async function bootstrap() {
   // 全局前缀
   app.setGlobalPrefix('api');
 
+  // 配置请求体大小限制 - 支持20MB以内的请求
+  app.use(json({ limit: '20mb' }));
+  app.use(urlencoded({ limit: '20mb', extended: true }));
+
   // 安全中间件
   app.use(helmet());
   app.use(compression());
 
   // CORS 配置
   app.enableCors({
-    origin: configService.get('FRONTEND_URL') || 'http://localhost:3000',
+    origin: [
+      configService.get('FRONTEND_URL') || 'http://localhost:3000',
+      'https://introduce.lgforest.fun',
+      'https://introduce.lgforest.fun/'
+    ],
     credentials: true,
   });
 

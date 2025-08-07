@@ -33,7 +33,6 @@ import {
 import { CloudOutlined, RobotOutlined, CodeOutlined, DesktopOutlined } from '@ant-design/icons';
 
 const { Title, Text } = Typography;
-
 const Skills: React.FC = () => {
   const previewChartRef = useRef<HTMLDivElement>(null);
   const tooltipChartRef = useRef<HTMLDivElement>(null);

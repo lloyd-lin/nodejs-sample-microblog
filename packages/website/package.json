@@ -10,8 +10,13 @@
     "clean": "rimraf dist",
     "type-check": "tsc --noEmit",
     "vite:dev": "vite --mode development",
+    "vite:dev:host": "vite --mode development --host",
+    "vite:dev:port": "vite --mode development --port 3000",
     "vite:build": "vite build --mode production",
-    "vite:preview": "vite preview"
+    "vite:preview": "vite preview",
+    "vite:preview:host": "vite preview --host",
+    "dev:hmr": "vite --mode development --force",
+    "dev:hmr:config": "vite --config vite.hmr.config.ts"
   },
   "keywords": [
     "portfolio",

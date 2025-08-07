@@ -8,7 +8,7 @@ export class ChatMessageDto {
 
   @ApiProperty({ description: '消息内容' })
   @IsString()
-  content: string;
+  content: string | any;
 }
 
 export class ChatCompletionDto {

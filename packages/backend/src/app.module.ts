@@ -4,6 +4,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ChatModule } from './modules/chat/chat.module';
+import { GalleryModule } from './modules/gallery/gallery.module';
+import { AIModule } from './modules/ai/ai.module';
 // import { AuthModule } from './modules/auth/auth.module';
 // import { UsersModule } from './modules/users/users.module';
 // import { PostsModule } from './modules/posts/posts.module';
@@ -37,8 +39,14 @@ import { ChatModule } from './modules/chat/chat.module';
     //   inject: [ConfigService],
     // }),
     
+    // AI模块
+    AIModule,
+    
     // 聊天模块
     ChatModule,
+    
+    // Gallery模块
+    GalleryModule,
     
     // 业务模块 - 暂时注释掉
     // AuthModule,

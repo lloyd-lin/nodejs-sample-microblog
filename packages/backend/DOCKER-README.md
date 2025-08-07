@@ -20,7 +20,7 @@
 
 ### 可选的环境变量
 - `OPENAI_BASE_URL`: OpenAI API基础URL（默认: https://api.openai.com/v1）
-- `FRONTEND_URL`: 前端URL（用于CORS，默认: http://localhost:3000）
+- `FRONTEND_URL`: 前端URL（用于CORS，默认: http://localhost:3000，支持: https://introduce.lgforest.fun）
 - `JWT_SECRET`: JWT密钥（推荐设置）
 
 ## 🚀 快速开始
@@ -167,7 +167,7 @@ NODE_ENV=production
 PORT=3001
 
 # 前端URL（CORS配置）
-FRONTEND_URL=https://your-frontend-domain.com
+FRONTEND_URL=https://introduce.lgforest.fun
 ```
 
 ### 3. 安全配置

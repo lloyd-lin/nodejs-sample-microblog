@@ -74,7 +74,8 @@ const Footer: React.FC = () => {
               gap: '8px',
             }}
           >
-            © 2024 林高 (Lin Gao). Made with <HeartFilled style={{ color: '#ff4d4f' }} /> in Shanghai
+            © 2025 林高 (Lin Gao). Made with <HeartFilled style={{ color: '#ff4d4f' }} /> in Shanghai. 
+           <a href="https://beian.miit.gov.cn/" target="_blank">沪ICP备2024000000号-1</a>
           </Text>
         </div>
       </div>

@@ -1,0 +1,537 @@
+/* PhotoAnalysis 容器样式 */
+.photo-analysis-container {
+  padding: 24px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+}
+
+.photo-analysis-header {
+  text-align: center;
+  margin-bottom: 32px;
+  color: white;
+}
+
+.photo-analysis-header .ant-typography {
+  color: white;
+}
+
+.photo-analysis-header .ant-typography h2 {
+  color: white;
+  margin-bottom: 8px;
+}
+
+/* 卡片样式 */
+.upload-card,
+.analysis-card {
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.upload-card:hover,
+.analysis-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* 上传区域样式 */
+.ant-upload-drag {
+  border: 2px dashed #d9d9d9;
+  border-radius: 8px;
+  background: #fafafa;
+  transition: all 0.3s ease;
+}
+
+.ant-upload-drag:hover {
+  border-color: #1890ff;
+  background: #f0f8ff;
+}
+
+.ant-upload-drag.ant-upload-drag-hover {
+  border-color: #1890ff;
+  background: #e6f7ff;
+}
+
+.ant-upload-drag-icon {
+  color: #1890ff;
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.ant-upload-text {
+  font-size: 16px;
+  color: #262626;
+  margin-bottom: 8px;
+}
+
+.ant-upload-hint {
+  color: #8c8c8c;
+  font-size: 14px;
+}
+
+/* 图片预览样式 */
+.image-preview {
+  margin-top: 24px;
+}
+
+.preview-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f5f5f5;
+  border-radius: 8px;
+  padding: 16px;
+  min-height: 200px;
+  border: 1px solid #e8e8e8;
+}
+
+.preview-mask {
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 4px;
+}
+
+/* 加载状态样式 */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+/* 分析结果样式 */
+.analysis-result {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.result-section {
+  margin-bottom: 24px;
+}
+
+.result-section:last-child {
+  margin-bottom: 0;
+}
+
+.result-section .ant-typography h4 {
+  color: #262626;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+/* 对象列表样式 */
+.objects-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.object-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  border-left: 4px solid #1890ff;
+}
+
+.object-item .ant-space {
+  flex: 1;
+}
+
+/* 标签容器样式 */
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tags-container .ant-tag {
+  margin: 0;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* 空状态样式 */
+.empty-result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+  color: #8c8c8c;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .photo-analysis-container {
+    padding: 16px;
+  }
+  
+  .photo-analysis-header {
+    margin-bottom: 24px;
+  }
+  
+  .upload-card,
+  .analysis-card {
+    margin-bottom: 16px;
+  }
+  
+  .object-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .object-item .ant-space {
+    width: 100%;
+  }
+  
+  .object-item .ant-progress {
+    width: 100% !important;
+  }
+}
+
+/* 按钮样式增强 */
+.ant-btn-primary {
+  background: linear-gradient(135deg, #1890ff 0%, #096dd9 100%);
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.ant-btn-primary:hover {
+  background: linear-gradient(135deg, #40a9ff 0%, #1890ff 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(24, 144, 255, 0.3);
+}
+
+.ant-btn-primary:active {
+  transform: translateY(0);
+}
+
+/* 进度条样式 */
+.ant-progress-bg {
+  background: linear-gradient(90deg, #1890ff 0%, #40a9ff 100%);
+}
+
+/* 卡片标题样式 */
+.ant-card-head-title {
+  font-weight: 600;
+  color: #262626;
+}
+
+/* 分割线样式 */
+.ant-divider {
+  margin: 16px 0;
+  border-color: #f0f0f0;
+}
+
+/* 警告框样式 */
+.ant-alert-info {
+  border: 1px solid #91d5ff;
+  background: #f6ffed;
+}
+
+.ant-alert-info .ant-alert-message {
+  color: #52c41a;
+  font-weight: 500;
+}
+
+/* 图片组件样式 */
+.ant-image {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 上传状态样式 */
+.ant-upload-drag.ant-upload-drag-uploading {
+  border-color: #1890ff;
+  background: #e6f7ff;
+}
+
+.ant-upload-drag.ant-upload-drag-uploading .ant-upload-drag-icon {
+  color: #1890ff;
+}
+
+/* 动画效果 */
+.ant-card {
+  animation: slideIn 0.6s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* 悬停效果 */
+.ant-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* 标签悬停效果 */
+.ant-tag:hover {
+  transform: scale(1.05);
+  transition: transform 0.2s ease;
+}
+
+/* 按钮组样式 */
+.ant-space {
+  gap: 12px !important;
+}
+
+/* 响应式网格 */
+@media (max-width: 1200px) {
+  .ant-col-lg-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+/* 滚动条样式 */
+.analysis-result::-webkit-scrollbar {
+  width: 6px;
+}
+
+.analysis-result::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.analysis-result::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.analysis-result::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* 特殊状态样式 */
+.ant-btn[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.ant-btn[disabled]:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* 加载动画增强 */
+.loading-container .ant-spin {
+  color: #1890ff;
+}
+
+.loading-container .ant-progress {
+  margin-top: 16px;
+}
+
+/* 图片预览增强 */
+.preview-container .ant-image {
+  max-width: 100%;
+  max-height: 400px;
+  object-fit: contain;
+}
+
+/* 卡片内容间距 */
+.ant-card-body {
+  padding: 24px;
+}
+
+/* 标题样式增强 */
+.photo-analysis-header .ant-typography h2 .anticon {
+  margin-right: 8px;
+  font-size: 28px;
+}
+
+/* 按钮图标样式 */
+.ant-btn .anticon {
+  margin-right: 4px;
+}
+
+/* 标签样式增强 */
+.ant-tag {
+  border-radius: 12px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.ant-tag:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 进度条容器样式 */
+.object-item .ant-progress {
+  margin-left: 12px;
+}
+
+/* 文本样式 */
+.ant-typography {
+  color: #262626;
+}
+
+.ant-typography.ant-typography-secondary {
+  color: #8c8c8c;
+}
+
+/* 链接按钮样式 */
+.ant-btn-link {
+  color: #1890ff;
+  padding: 0;
+  height: auto;
+  line-height: 1;
+}
+
+.ant-btn-link:hover {
+  color: #40a9ff;
+  background: transparent;
+}
+
+/* 响应式图片 */
+.ant-image-img {
+  transition: transform 0.3s ease;
+}
+
+.ant-image:hover .ant-image-img {
+  transform: scale(1.02);
+}
+
+/* 空状态图标动画 */
+.empty-result .anticon {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* 加载进度条动画 */
+.loading-container .ant-progress-bg {
+  animation: progressAnimation 2s ease-in-out infinite;
+}
+
+@keyframes progressAnimation {
+  0% {
+    width: 0%;
+  }
+  50% {
+    width: 75%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+/* 卡片阴影效果 */
+.upload-card,
+.analysis-card {
+  position: relative;
+}
+
+.upload-card::before,
+.analysis-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* 移动端优化 */
+@media (max-width: 576px) {
+  .photo-analysis-container {
+    padding: 12px;
+  }
+  
+  .ant-card-body {
+    padding: 16px;
+  }
+  
+  .photo-analysis-header .ant-typography h2 {
+    font-size: 20px;
+  }
+  
+  .ant-upload-drag-icon {
+    font-size: 36px;
+  }
+  
+  .ant-upload-text {
+    font-size: 14px;
+  }
+  
+  .ant-upload-hint {
+    font-size: 12px;
+  }
+}
+
+/* 深色模式支持 */
+@media (prefers-color-scheme: dark) {
+  .photo-analysis-container {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  }
+  
+  .upload-card,
+  .analysis-card {
+    background: rgba(30, 30, 30, 0.95);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .ant-typography {
+    color: #ffffff;
+  }
+  
+  .ant-typography.ant-typography-secondary {
+    color: #a0a0a0;
+  }
+  
+  .preview-container {
+    background: #2a2a2a;
+    border-color: #404040;
+  }
+  
+  .object-item {
+    background: #2a2a2a;
+  }
+} 

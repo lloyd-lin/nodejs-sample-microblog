@@ -1,79 +1,31 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Observable } from 'rxjs';
-import OpenAI from 'openai';
-import { ChatCompletionDto, ChatResponseDto, } from './dto/chat.dto';
+import { ChatCompletionDto, ChatResponseDto, } from '../ai/dto/chat.dto';
 import { jobAgentPrompt } from '../../prompt/job.agent';
 import * as fs from 'fs';
-import type { ChatCompletionMessageParam } from 'openai/resources/chat/completions';
+import { AIServiceFactory } from '../ai/ai-service.factory';
 
 @Injectable()
 export class ChatService {
   private readonly logger = new Logger(ChatService.name);
-  private openai: OpenAI;
 
-  constructor(private configService: ConfigService) {
-    this.initializeOpenAI();
-  }
-
-  private initializeOpenAI() {
-    const apiKey = this.configService.get<string>('OPENAI_API_KEY');
-    const baseURL = this.configService.get<string>('OPENAI_BASE_URL');
-
-    if (!apiKey) {
-      throw new Error('OPENAI_API_KEY is required');
-    }
-
-    try {
-      this.openai = new OpenAI({
-        apiKey,
-        baseURL: baseURL || 'https://api.openai.com/v1',
-      });
-      this.logger.log('OpenAI client initialized successfully');
-    } catch (error) {
-      this.logger.error('Failed to initialize OpenAI client:', error);
-      throw error;
-    }
-  }
+  constructor(
+    private configService: ConfigService,
+    private aiServiceFactory: AIServiceFactory,
+  ) {}
 
   /**
    * 聊天完成 - 非流式
    */
   async chatCompletion(chatDto: ChatCompletionDto): Promise<ChatResponseDto> {
     try {
-      const { messages, model = 'gpt-3.5-turbo', temperature = 0.7, max_tokens = 1000 } = chatDto;
-
-      // 调用OpenAI API
-      const completion = await this.openai.chat.completions.create({
-        model,
-        messages: messages.map(msg => ({
-          role: msg.role,
-          content: msg.content,
-        })),
-        temperature,
-        max_tokens,
-        stream: false,
-      });
-
-      return {
-        id: completion.id,
-        object: completion.object,
-        created: completion.created,
-        model: completion.model,
-        choices: completion.choices.map(choice => ({
-          index: choice.index,
-          message: {
-            role: choice.message.role as 'assistant',
-            content: choice.message.content || '',
-          },
-          finish_reason: choice.finish_reason || 'stop',
-        })),
-        usage: {
-          prompt_tokens: completion.usage?.prompt_tokens || 0,
-          completion_tokens: completion.usage?.completion_tokens || 0,
-          total_tokens: completion.usage?.total_tokens || 0,
-        },
-      };
+      const { model = 'deepseek-chat' } = chatDto;
+      
+      // 根据模型自动选择AI服务
+      const aiService = this.aiServiceFactory.getServiceByModel(model);
+      
+      return await aiService.chatCompletion(chatDto);
     } catch (error) {
       this.logger.error('Chat completion error:', error);
       throw new Error(`聊天服务错误: ${error.message}`);
@@ -84,38 +36,12 @@ export class ChatService {
    * 聊天完成 - 流式返回
    */
   chatCompletionStream(chatDto: ChatCompletionDto): Observable<string> {
-    const { messages, model = 'gpt-3.5-turbo', temperature = 0.7, max_tokens = 1000 } = chatDto;
-
-    return new Observable(observer => {
-      // 调用OpenAI流式API
-      this.openai.chat.completions.create({
-        model,
-        messages: messages.map(msg => ({
-          role: msg.role,
-          content: msg.content,
-        })),
-        temperature,
-        max_tokens,
-        stream: true,
-      }).then(async (stream) => {
-        try {
-          for await (const chunk of stream) {
-            const sseData = this.formatOpenAIChunk(chunk);
-            if (sseData) {
-              observer.next(sseData);
-            }
-          }
-          observer.next('data: [DONE]\n\n');
-          observer.complete();
-        } catch (error) {
-          this.logger.error('Stream processing error:', error);
-          observer.error(error);
-        }
-      }).catch(error => {
-        this.logger.error('Stream creation error:', error);
-        observer.error(error);
-      });
-    });
+    const { model = 'deepseek-chat' } = chatDto;
+    
+    // 根据模型自动选择AI服务
+    const aiService = this.aiServiceFactory.getServiceByModel(model);
+    
+    return aiService.chatCompletionStream(chatDto);
   }
 
   /**
@@ -123,7 +49,7 @@ export class ChatService {
    */
   resumeMatchChatStream(dto: ChatCompletionDto): Observable<string> {
     // 读取简历内容
-    const { messages: userMsg, model = 'gpt-3.5-turbo', temperature = 0.7, max_tokens = 1000 } = dto;
+    const { messages: userMsg, model = 'deepseek-chat' } = dto;
     const resumePath = __dirname + '/../../resume.json';
     let resumeContent = '';
     try {
@@ -141,80 +67,37 @@ export class ChatService {
     systemPrompt += '请根据上述内容，回答用户问题。';
 
     // 构造消息
-    const messages: ChatCompletionMessageParam[] = [
-      { role: 'system', content: systemPrompt },
+    const messages = [
+      { role: 'system' as const, content: systemPrompt },
       ... userMsg.map(msg => ({
         role: msg.role,
         content: msg.content,
       }))
     ];
 
-    // 流式调用 OpenAI
-    return new Observable(observer => {
-      this.openai.chat.completions.create({
-        model,
-        messages,
-        temperature,
-        max_tokens,
-        stream: true,
-      }).then(async (stream) => {
-        try {
-          for await (const chunk of stream) {
-            const sseData = this.formatOpenAIChunk(chunk);
-            if (sseData) {
-              observer.next(sseData);
-            }
-          }
-          observer.next('data: [DONE]\n\n');
-          observer.complete();
-        } catch (error) {
-          this.logger.error('Stream processing error:', error);
-          observer.error(error);
-        }
-      }).catch(error => {
-        this.logger.error('Stream creation error:', error);
-        observer.error(error);
-      });
-    });
+    // 根据模型自动选择AI服务
+    const aiService = this.aiServiceFactory.getServiceByModel(model);
+    
+    // 创建新的ChatCompletionDto
+    const enhancedDto: ChatCompletionDto = {
+      ...dto,
+      messages,
+    };
+
+    return aiService.chatCompletionStream(enhancedDto);
   }
 
-  /**
-   * 格式化OpenAI流式响应块
-   */
-  private formatOpenAIChunk(chunk: any): string {
-    try {
-      const sseChunk = {
-        id: chunk.id,
-        object: chunk.object,
-        created: chunk.created,
-        model: chunk.model,
-        choices: chunk.choices.map(choice => ({
-          index: choice.index,
-          delta: choice.delta,
-          finish_reason: choice.finish_reason,
-        })),
-      };
+  
 
-      return `data: ${JSON.stringify(sseChunk)}\n\n`;
-    } catch (error) {
-      this.logger.error('Error formatting chunk:', error);
-      return '';
-    }
-  }
 
   /**
    * 获取支持的模型列表
    */
   async getModels() {
     try {
-      const models = await this.openai.models.list();
-      return models.data.filter(model => 
-        model.id.includes('gpt') || 
-        model.id.includes('text-davinci') ||
-        model.id.includes('claude')
-      );
+      return await this.aiServiceFactory.getAllModels();
     } catch (error) {
-      this.logger.error('Failed to fetch models from OpenAI:', error);
+      this.logger.error('Failed to fetch models:', error);
       throw error;
     }
   }
@@ -223,21 +106,11 @@ export class ChatService {
    * 健康检查
    */
   async healthCheck() {
-    const status = {
-      openai_connected: false,
-      api_key_configured: !!this.configService.get('OPENAI_API_KEY'),
-      service_status: 'unhealthy',
-    };
-
     try {
-      await this.openai.models.list();
-      status.openai_connected = true;
-      status.service_status = 'healthy';
+      return await this.aiServiceFactory.getAllServicesStatus();
     } catch (error) {
-      this.logger.error('OpenAI health check failed:', error.message);
+      this.logger.error('Health check failed:', error.message);
       throw error;
     }
-
-    return status;
   }
 } 
