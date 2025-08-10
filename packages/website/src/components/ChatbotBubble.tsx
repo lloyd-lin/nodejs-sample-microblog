@@ -1,7 +1,9 @@
 // packages/website/src/components/ChatbotBubble.tsx
 import React, { useState, useRef, useEffect } from 'react';
 import { Modal, Button, Badge, Tooltip, message } from 'antd';
-import { MessageOutlined, CloseOutlined, SendOutlined, RobotOutlined } from '@ant-design/icons';
+import { CloseOutlined, SendOutlined } from '@ant-design/icons';
+import { BsRobot } from "react-icons/bs";
+import { FaUserCircle  } from "react-icons/fa";
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
@@ -393,7 +395,7 @@ const ChatbotBubble: React.FC = () => {
               type="primary"
               shape="circle"
               size="large"
-              icon={<RobotOutlined />}
+              icon={<BsRobot />}
               onClick={handleBubbleClick}
               style={{
                 width: '64px',
@@ -532,7 +534,7 @@ const ChatbotBubble: React.FC = () => {
                     marginTop: '4px', // 轻微调整头像位置
                   }}
                 >
-                  {msg.role === 'user' ? '👤' : '🤖'}
+                  {msg.role === 'user' ? <FaUserCircle /> : <BsRobot/>}
                 </div>
 
                 {/* 消息气泡 */}

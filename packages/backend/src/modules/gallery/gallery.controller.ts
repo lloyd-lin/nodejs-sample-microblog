@@ -30,7 +30,7 @@ export class GalleryController {
   ) {
         res.setHeader('Cache-Control', 'no-cache');
         res.setHeader('Connection', 'keep-alive');
-        res.setHeader('Access-Control-Allow-Origin', 'https://openapi.lgforest.fun,https://introduce.lgforest.fun');
+        res.setHeader('Access-Control-Allow-Origin', 'https://introduce.lgforest.fun');
         res.setHeader('Access-Control-Allow-Headers', 'Cache-Control');
         res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
         res.flushHeaders();

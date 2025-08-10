@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Menu, Button } from 'antd';
+import { Layout, Menu, Button, Drawer } from 'antd';
 import { MenuOutlined } from '@ant-design/icons';
 
 const { Header: AntHeader } = Layout;
@@ -7,6 +7,7 @@ const { Header: AntHeader } = Layout;
 const Header: React.FC = () => {
   const [current, setCurrent] = useState('hero');
   const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -55,7 +56,13 @@ const Header: React.FC = () => {
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
       setCurrent(sectionId);
+      // 关闭移动端菜单
+      setMobileMenuOpen(false);
     }
+  };
+
+  const handleMobileMenuToggle = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
   };
 
   // 根据滚动状态确定字体颜色
@@ -130,8 +137,51 @@ const Header: React.FC = () => {
             transition: 'color 0.3s ease'
           }}
           className="mobile-menu-btn"
+          onClick={handleMobileMenuToggle}
         />
       </div>
+
+              {/* Mobile Menu Drawer */}
+        <Drawer
+          placement="right"
+          closable={false}
+          onClose={() => setMobileMenuOpen(false)}
+          open={mobileMenuOpen}
+          width={280}
+          styles={{
+            body: { padding: 0 },
+            header: { 
+              borderBottom: '1px solid #f0f0f0',
+              padding: '0 24px'
+            }
+          }}
+        >
+        <div style={{ padding: '0' }}>
+          {menuItems.map(item => (
+            <div
+              key={item.key}
+              onClick={() => scrollToSection(item.key)}
+              style={{
+                padding: '16px 24px',
+                cursor: 'pointer',
+                borderBottom: '1px solid #f5f5f5',
+                color: current === item.key ? '#1890ff' : '#262626',
+                fontWeight: current === item.key ? 600 : 400,
+                transition: 'all 0.3s ease',
+                backgroundColor: current === item.key ? '#f0f8ff' : 'transparent'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = current === item.key ? '#e6f7ff' : '#f5f5f5';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = current === item.key ? '#f0f8ff' : 'transparent';
+              }}
+            >
+              {item.label}
+            </div>
+          ))}
+        </div>
+      </Drawer>
 
       <style>{`
         @media (max-width: 768px) {
@@ -158,6 +208,15 @@ const Header: React.FC = () => {
         
         .ant-menu-item {
           transition: color 0.3s ease !important;
+        }
+
+        /* 移动端菜单样式优化 */
+        .ant-drawer-content-wrapper {
+          z-index: 1001;
+        }
+        
+        .ant-drawer-mask {
+          z-index: 1000;
         }
       `}</style>
     </AntHeader>

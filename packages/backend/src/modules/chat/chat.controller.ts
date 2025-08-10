@@ -74,7 +74,7 @@ import {
       // 设置SSE响应头
       res.setHeader('Cache-Control', 'no-cache');
       res.setHeader('Connection', 'keep-alive');
-      res.setHeader('Access-Control-Allow-Origin', 'https://openapi.lgforest.fun,https://introduce.lgforest.fun');
+      res.setHeader('Access-Control-Allow-Origin', 'https://introduce.lgforest.fun');
       res.setHeader('Access-Control-Allow-Headers', 'Cache-Control');
       res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
       res.flushHeaders();
@@ -127,7 +127,7 @@ import {
     ) {
       res.setHeader('Cache-Control', 'no-cache');
       res.setHeader('Connection', 'keep-alive');
-      res.setHeader('Access-Control-Allow-Origin', 'https://openapi.lgforest.fun,https://introduce.lgforest.fun');
+      res.setHeader('Access-Control-Allow-Origin', 'https://introduce.lgforest.fun');
       res.setHeader('Access-Control-Allow-Headers', 'Cache-Control');
       res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
       res.flushHeaders();

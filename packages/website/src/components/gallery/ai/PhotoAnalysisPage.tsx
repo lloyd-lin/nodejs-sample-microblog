@@ -4,8 +4,6 @@ import { ArrowLeftOutlined, CameraOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import PhotoAnalysis from './PhotoAnalysis';
 
-const { Title } = Typography;
-
 const PhotoAnalysisPage: React.FC = () => {
   const navigate = useNavigate();
 
